@@ -1,3 +1,5 @@
+import "./firebaseConfig";
+import sendToFirebase from "./sendToFirebase";
 import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
 import LoginView from "./Components/LoginView";
 import RegisterView from "./Components/RegisterView";
@@ -24,6 +26,7 @@ function App() {
         <Link to={routerPaths.login}>Login</Link>
         <Link to={routerPaths.register}>Register</Link>
         <Link to={routerPaths.dashboard}>Dashboard</Link>
+        <button onClick={sendToFirebase}>Send</button>
       </PageContainer>
     </BrowserRouter>
   );
