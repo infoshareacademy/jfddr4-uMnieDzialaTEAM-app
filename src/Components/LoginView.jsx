@@ -2,6 +2,11 @@ import styled from "styled-components";
 import { useState } from "react";
 import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import app from "../firebaseConfig";
+import { Redirect, Route } from "react-router";
+import { routerPaths } from "../helpers/routerPaths.js"
+import ReactDOM from 'react-dom';
 
 const Logo = styled.img`
   max-width: 180px;
@@ -151,12 +156,29 @@ const Link = styled.a`
 function LoginView() {
   const [loginValue, setLoginValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
-  const handleLoginButton = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState("");
+  const auth = getAuth();
+  
+  const handleLoginButton = (event) => {
     console.log(loginValue, passwordValue);
+    event.preventDefault();
+    
+    signInWithEmailAndPassword(auth, loginValue, passwordValue)
+      .then((userCredential) => {
+        console.log(userCredential.user);
+        // todo: go to daszbord (moze dam 🤔)
+        setIsLoggedIn(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
   };
 
   return (
     <>
+    { isLoggedIn ? <Redirect to={routerPaths.dashboard}/> : <></> }
       <Container>
         <LeftContainer>
           <PositionalContainer>
@@ -179,10 +201,11 @@ function LoginView() {
             />
             <Label>Password</Label>
             <Input
+              type="password"
               value={passwordValue}
               onChange={(e) => setPasswordValue(e.target.value)}
             />
-            <Button onClick={handleLoginButton}>LOG IN</Button>
+            <Button onClick={handleLoginButton} >LOG IN</Button>
             <Additionals>
               <Register>
                 <Paragraph>New here?</Paragraph>
