@@ -1,5 +1,5 @@
 import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
-import LoginView from "./Components/Login/LoginView";
+import LoginView from "./Components/LoginView";
 // import sendToFirebase from "./sendToFirebase";
 import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
