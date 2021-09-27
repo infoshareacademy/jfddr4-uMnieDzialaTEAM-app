@@ -4,6 +4,7 @@ import LoginView from "./Components/LoginView";
 import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
+import DonutChart from "./Components/Chart";
 
 function App() {
   return (
@@ -18,6 +19,9 @@ function App() {
           </Route>
           <Route exact path={routerPaths.dashboard}>
             <h1>Welcome to Dashboard Page! 🎊</h1>
+          </Route>
+          <Route exact path="/chart">
+            <DonutChart />
           </Route>
           <h1>No such page 😭</h1>
         </Switch>
