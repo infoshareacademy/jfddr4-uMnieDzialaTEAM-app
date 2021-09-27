@@ -1,9 +1,9 @@
+import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import LoginView from "./Components/Login/LoginView";
 // import sendToFirebase from "./sendToFirebase";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
-import LoginView from "./Components/LoginView";
 import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
-import { routerPaths } from "./routerPaths";
+import { routerPaths } from "./helpers/routerPaths";
 
 function App() {
   return (
