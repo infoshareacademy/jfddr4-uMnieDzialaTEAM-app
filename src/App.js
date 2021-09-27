@@ -8,7 +8,6 @@ import { routerPaths } from "./helpers/routerPaths";
 function App() {
   return (
     <BrowserRouter>
-      <PageContainer>
         <Switch>
           <Route exact path={routerPaths.login}>
             <LoginView />
@@ -17,7 +16,7 @@ function App() {
             <RegisterView />
           </Route>
           <Route exact path={routerPaths.dashboard}>
-            <h1>Welcome to Dashboard Page! 🎊</h1>
+            <PageContainer/>
           </Route>
           <h1>No such page 😭</h1>
         </Switch>
@@ -26,7 +25,6 @@ function App() {
         <Link to={routerPaths.register}>Register</Link>
         <Link to={routerPaths.dashboard}>Dashboard</Link>
         <button onClick={sendToFirebase}>Send</button> */}
-      </PageContainer>
     </BrowserRouter>
   );
 }
