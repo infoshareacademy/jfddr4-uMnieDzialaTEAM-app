@@ -4,9 +4,11 @@ import LoginView from "./Components/LoginView";
 import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
+import { AuthProvider } from "./Auth";
 
 function App() {
   return (
+    <AuthProvider>
     <BrowserRouter>
       <PageContainer>
         <Switch>
@@ -28,6 +30,7 @@ function App() {
         <button onClick={sendToFirebase}>Send</button> */}
       </PageContainer>
     </BrowserRouter>
+    </AuthProvider>
   );
 }
 
