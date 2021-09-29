@@ -4,7 +4,7 @@ import compass from "./images/compass.svg";
 import React, {useState} from "react";
 import { Redirect } from "react-router-dom";
 import {createUserWithEmailAndPassword, getAuth} from "firebase/auth"
-
+import { routerPaths } from "../helpers/routerPaths";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -135,7 +135,7 @@ function RegisterView() {
     }
   };
   if (currentUser) {
-      return <Redirect to="/dashboard" />;
+      return <Redirect to={routerPaths.dashboard} />;
   }
 
   return (
