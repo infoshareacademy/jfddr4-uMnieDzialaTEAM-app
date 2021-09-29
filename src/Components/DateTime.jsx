@@ -19,7 +19,7 @@ export const DateTime = () => {
             clearInterval(timer)
         }
     
-    });
+    },[]);
 
     return(
         <Time>
