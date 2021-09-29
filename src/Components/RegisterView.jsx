@@ -3,7 +3,8 @@ import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
 import React, {useState} from "react";
 import { Redirect } from "react-router-dom";
-import firebaseConfig from "../firebaseConfig";
+import {createUserWithEmailAndPassword, getAuth} from "firebase/auth"
+
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -118,15 +119,17 @@ const Link = styled.a`
   color: #2ee1ed;
   margin-top: 8px;
 `;
-
 function RegisterView() {
+  const auth = getAuth()
   const [currentUser, setCurrentUser] = useState(null);    
   const handleSubmit = (e) => {
     e.preventDefault();    
     const { email, password } = e.target.elements;
     try {
-      firebaseConfig.auth().createUserWithEmailAndPassword(email.value, password.value);      
+      createUserWithEmailAndPassword(auth, email.value, password.value).then(() => {
       setCurrentUser(true);
+}
+      );      
     } catch (error) {
       alert(error);
     }
@@ -147,14 +150,16 @@ function RegisterView() {
         </ImgCont>
       </LeftPanel>
       <RightPanel>
-        <InputsCont onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}> 
+        <InputsCont >
           <Label for="email">Email</Label>
           <Input type="email"  name="email" required></Input>
           <Label for="password">Password</Label>
           <Input type="password" name="password" minLength="6" required></Input>
           <Btn type="submit">NEW ACCOUNT</Btn>
           <Link href="#">Back to log in</Link>
-        </InputsCont>
+        </InputsCont></form>
+        
       </RightPanel>
     </Wrapper>
   );

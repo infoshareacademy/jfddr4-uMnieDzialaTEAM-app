@@ -8,12 +8,14 @@ import { AuthProvider } from "./Auth";
 
 function App() {
   return (
-    <AuthProvider>
+    
     <BrowserRouter>
       <PageContainer>
         <Switch>
           <Route exact path={routerPaths.login}>
+          <AuthProvider>
             <LoginView />
+          </AuthProvider>
           </Route>
           <Route exact path={routerPaths.register}>
             <RegisterView />
@@ -30,7 +32,7 @@ function App() {
         <button onClick={sendToFirebase}>Send</button> */}
       </PageContainer>
     </BrowserRouter>
-    </AuthProvider>
+    
   );
 }
 
