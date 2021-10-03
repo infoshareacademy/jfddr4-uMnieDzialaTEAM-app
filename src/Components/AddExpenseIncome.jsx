@@ -1,3 +1,6 @@
+import { collection, addDoc } from "firebase/firestore/lite";
+import { db } from "../firebaseConfig";
+
 import { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -19,25 +22,28 @@ const AddExpenseIncome = function () {
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
   const [selectedDate, setSelectedDate] = useState(new Date("2020-10-02"));
+  const [error, setError] = useState(true);
 
-  const ReadData = (e) => {
+  const WriteData = async (e) => {
     e.preventDefault();
-    console.log(title, category, amount, type);
-    //   firebaseFuncAddDoc({title, category, amount, date, type});
-    //   try {
-    //     const docRef = await addDoc(collection(db, "cities"), {
-    //       name: title,
-    //       category: category,
-    //       value: amount,
-    //       date,
-    //       type: `${amount < 0 ? "expense" : "income"}`,
-    //       type: type,
-    //       uid: "123",
-    //     });
-    //     console.log("Document written with ID: ", docRef.id);
-    //   } catch (err) {
-    //     console.error("Error adding document: ", err);
-    //   }
+    try {
+      const docRef = await addDoc(collection(db, "cities"), {
+        name: title,
+        category: category,
+        value: +amount,
+        date: selectedDate,
+        type: type,
+        // uid: auth.currentUser.uid,
+      });
+      setTitle("Payment");
+      setCategory("groceries");
+      setAmount("");
+      setType("expense");
+      setError(true);
+      console.log("Document written with ID: ", docRef.id);
+    } catch (err) {
+      console.error("Error adding document: ", err);
+    }
   };
 
   return (
@@ -48,19 +54,28 @@ const AddExpenseIncome = function () {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        background: "rgba(59, 58, 90, 0.4)",
+        backdropFilter: "blur(6px)",
       }}
     >
       <Box
         component="form"
         sx={{
           "& .MuiTextField-root": { m: 1, width: "25ch" },
-          backgroundColor: "lightblue",
-          padding: "100px",
+          padding: "50px",
+          width: "410px",
+          height: "466px",
+          background: "#FFFFFF",
+          borderRadius: "10px",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-around",
         }}
         noValidate
         autoComplete="off"
       >
         <TextField
+          style={{ width: "400px" }}
           id="outlined-basic"
           label="Title"
           value={title}
@@ -69,7 +84,7 @@ const AddExpenseIncome = function () {
           onChange={(e) => setTitle(e.target.value)}
           onBlur={(e) => (title === "" ? setTitle("Payment") : undefined)}
         />
-        <Box sx={{ maxWidth: 226, marginLeft: 1 }}>
+        <Box sx={{ maxWidth: 400, marginLeft: 1 }}>
           <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">Category</InputLabel>
             <Select
@@ -88,19 +103,50 @@ const AddExpenseIncome = function () {
         </Box>
         <Box>
           <TextField
+            style={{ width: "400px" }}
             id="outlined-number"
             label="Amount"
             type="number"
             InputLabelProps={{
               shrink: true,
             }}
+            value={amount}
             error={amount !== "" && amount <= 0}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={(e) => {
+              setAmount(e.target.value);
+              if (e.target.value !== "" && e.target.value > 0) {
+                setError(false);
+              } else {
+                setError(true);
+              }
+            }}
           />
         </Box>
-        <Box sx={{ maxWidth: 226, marginLeft: 2 }}>
+        <Box
+          style={{
+            width: "400px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+              label="Date"
+              inputFormat="MM/dd/yyyy"
+              value={selectedDate}
+              onChange={setSelectedDate}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+        </Box>
+        <Box sx={{ marginLeft: 2 }}>
           <FormControl component="fieldset">
             <RadioGroup
+              style={{
+                width: "400px",
+                display: "flex",
+                justifyContent: "space-evenly",
+              }}
               row
               aria-label="type"
               value={type}
@@ -120,18 +166,25 @@ const AddExpenseIncome = function () {
             </RadioGroup>
           </FormControl>
         </Box>
-        <Box>
-          <LocalizationProvider dateAdapter={AdapterDateFns}>
-            <DesktopDatePicker
-              label="Date desktop"
-              inputFormat="MM/dd/yyyy"
-              value={selectedDate}
-              onChange={setSelectedDate}
-              renderInput={(params) => <TextField {...params} />}
-            />
-          </LocalizationProvider>
-        </Box>
-        <button onClick={ReadData}>Add</button>
+        <button
+          style={{
+            width: "400px",
+            height: "48px",
+            background: "linear-gradient(180deg, #7AECF4 0%, #44DFE9 100%)",
+            boxShadow:
+              "inset 2px 0px 2px rgba(255, 255, 255, 0.1), inset 0px 6px 10px rgba(255, 255, 255, 0.25)",
+            borderRadius: "8px",
+            fontFamily: "Inter",
+            fontStyle: "normal",
+            fontWeight: "bold",
+            fontSize: "16px",
+            lineHeight: "24px",
+          }}
+          onClick={WriteData}
+          disabled={error}
+        >
+          ADD
+        </button>
       </Box>
     </div>
   );
