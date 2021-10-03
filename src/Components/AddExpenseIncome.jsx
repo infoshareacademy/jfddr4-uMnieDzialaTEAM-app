@@ -1,7 +1,4 @@
-import { collection, addDoc } from "firebase/firestore/lite";
 import { useState } from "react";
-import { db } from "../firebaseConfig";
-import styled from "styled-components";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -11,14 +8,10 @@ import Select from "@mui/material/Select";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormLabel from "@mui/material/FormLabel";
-import "date-fns";
-import Grid from "@material-ui/core/Grid";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardDatePicker,
-} from "@material-ui/pickers";
+
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 const AddExpenseIncome = function () {
   const [title, setTitle] = useState("Payment");
@@ -26,8 +19,6 @@ const AddExpenseIncome = function () {
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
   const [selectedDate, setSelectedDate] = useState(new Date("2020-10-02"));
-
-  const handleDateChange = (date) => setSelectedDate(date);
 
   const ReadData = (e) => {
     e.preventDefault();
@@ -130,21 +121,15 @@ const AddExpenseIncome = function () {
           </FormControl>
         </Box>
         <Box>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid>
-              <KeyboardDatePicker
-                disableToolbar
-                // variant="inline"
-                format="MM/dd/yyy"
-                // margin="normal"
-                id="date-picker"
-                // label="Date picker"
-                value={selectedDate}
-                onChange={handleDateChange}
-                KeyboardButtonProps={{ "aria-label": "change-date" }}
-              ></KeyboardDatePicker>
-            </Grid>
-          </MuiPickersUtilsProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DesktopDatePicker
+              label="Date desktop"
+              inputFormat="MM/dd/yyyy"
+              value={selectedDate}
+              onChange={setSelectedDate}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
         </Box>
         <button onClick={ReadData}>Add</button>
       </Box>
