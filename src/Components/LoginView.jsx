@@ -8,6 +8,7 @@ import { Redirect } from "react-router";
 import { routerPaths } from "../helpers/routerPaths.js"
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useCurrentUser } from "../helpers/hooks";
 
 
 const Logo = styled.img`
@@ -160,9 +161,8 @@ const auth = getAuth();
 function LoginView() {
   const [loginValue, setLoginValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
-  const [user, setUser] = useState();
   const history = useHistory();
-  
+  const user = useCurrentUser();
   const handleLoginButton = (event) => {
     console.log(loginValue, passwordValue);
     event.preventDefault();
@@ -177,15 +177,6 @@ function LoginView() {
         alert(errorMessage);
       });
   };
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
-    setUser(user)
-    })
-    return () => {
-      unsubscribe()
-    } 
-  },[])
 
   return (
     <>

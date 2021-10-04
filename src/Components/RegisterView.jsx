@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
 import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from "firebase/auth";
 import { routerPaths } from "../helpers/routerPaths";
+import { useCurrentUser } from "../helpers/hooks";
 
 const Wrapper = styled.div`
   width: 100vw;
@@ -122,9 +123,8 @@ const StyledLink = styled(Link)`
 
 
 function RegisterView() {
-
-  const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(false);
+  const currentUser = useCurrentUser();
 
   //logic for modal and backdrop
   const [showModal, setShowModal] = useState(false);
@@ -143,7 +143,7 @@ function RegisterView() {
     createUserWithEmailAndPassword( auth , email.value, password.value).then(
       () => {
         setLoading(false);
-        setCurrentUser(true);
+
       }
     ).catch((err)=> {
       let customError = '';
