@@ -1,9 +1,10 @@
-import { Switch, Route, Link, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import LoginView from "./Components/LoginView";
 // import sendToFirebase from "./sendToFirebase";
 import RegisterView from "./Components/RegisterView";
-import { PageContainer } from "./Components/PageContainer";
+// import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
+import AddExpenseIncome from "./Components/AddExpenseIncome";
 
 function App() {
   return (
@@ -17,6 +18,9 @@ function App() {
           </Route>
           <Route exact path={routerPaths.dashboard}>
             <PageContainer/>
+          </Route>
+          <Route exact path="/add">
+            <AddExpenseIncome />
           </Route>
           <h1>No such page 😭</h1>
         </Switch>
