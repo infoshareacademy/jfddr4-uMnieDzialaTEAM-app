@@ -1,7 +1,14 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
+import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import '../firebaseConfig';
+import { Redirect } from "react-router";
+import { routerPaths } from "../helpers/routerPaths.js"
+import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
+
 
 const Logo = styled.img`
   max-width: 180px;
@@ -36,7 +43,6 @@ const LeftContainer = styled.div`
 const PositionalContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: flex-start; */
   justify-content: center;
   flex-grow: 1;
   margin-left: 20%;
@@ -134,7 +140,8 @@ const Paragraph = styled.p`
   margin-top: 8px;
   margin-right: 5px;
 `;
-const Link = styled.a`
+
+const Link2 = styled(Link)`
   font-family: Inter;
   font-style: normal;
   font-weight: 600;
@@ -144,15 +151,41 @@ const Link = styled.a`
   margin-top: 8px;
 `;
 
+const auth = getAuth();
+
 function LoginView() {
   const [loginValue, setLoginValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
-  const handleLoginButton = () => {
+  const [user, setUser] = useState();
+  const history = useHistory();
+  
+  const handleLoginButton = (event) => {
     console.log(loginValue, passwordValue);
+    event.preventDefault();
+    
+    signInWithEmailAndPassword(auth, loginValue, passwordValue)
+      .then((userCredential) => {
+        history.push(routerPaths.dashboard);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        alert(errorMessage);
+      });
   };
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+    setUser(user)
+    })
+    return () => {
+      unsubscribe()
+    } 
+  },[])
 
   return (
     <>
+      { user ? <Redirect to={routerPaths.dashboard} />: <></> }
       <Container>
         <LeftContainer>
           <PositionalContainer>
@@ -175,16 +208,17 @@ function LoginView() {
             />
             <Label>Password</Label>
             <Input
+              type="password"
               value={passwordValue}
               onChange={(e) => setPasswordValue(e.target.value)}
             />
-            <Button onClick={handleLoginButton}>LOG IN</Button>
+            <Button onClick={handleLoginButton} >LOG IN</Button>
             <Additionals>
               <Register>
                 <Paragraph>New here?</Paragraph>
-                <Link href="#">Register now</Link>
+                <Link2 to={routerPaths.register}>Register now</Link2>
               </Register>
-              <Link href="#">Forgot password?</Link>
+              <Link2 href="#">Forgot password?</Link2>
             </Additionals>
           </Main>
         </RightContainer>
