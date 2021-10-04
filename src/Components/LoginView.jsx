@@ -60,10 +60,6 @@ const Heading = styled.h2`
   color: #ffffff;
 `;
 
-const Image = styled.img`
-  max-height: 100%;
-`;
-
 const RightContainer = styled.div`
   width: 40%;
   min-height: 606px;
