@@ -9,6 +9,9 @@ import { routerPaths } from "../helpers/routerPaths.js"
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../helpers/hooks";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 
 const Logo = styled.img`
@@ -155,15 +158,20 @@ const Link2 = styled(Link)`
 const auth = getAuth();
 
 function LoginView() {
-  const [loginValue, setLoginValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
   const history = useHistory();
   const user = useCurrentUser();
-  const handleLoginButton = (event) => {
-    console.log(loginValue, passwordValue);
-    event.preventDefault();
-    
-    signInWithEmailAndPassword(auth, loginValue, passwordValue)
+ // VALIDATION ------------------------------------------------------------
+ const validationSchema = yup.object().shape({
+  email: yup.string().email("Invalid email address").required("Required"),
+  password: yup.string().min(6, "At least 6 characters").max(32, "Less than 32 characters").required("Required")
+})
+
+const formOptions = { resolver: yupResolver(validationSchema)};
+const { register, handleSubmit, formState: { errors }} = useForm(formOptions);
+// -----------------------------------------------------------------------
+
+const handleOnSubmit = ({email, password}) => {
+  signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         history.push(routerPaths.dashboard);
       })
@@ -172,7 +180,7 @@ function LoginView() {
         const errorMessage = error.message;
         alert(errorMessage);
       });
-  };
+  }
 
   return (
     <>
@@ -192,18 +200,30 @@ function LoginView() {
         </LeftContainer>
         <RightContainer>
           <Main>
-            <Label>Email</Label>
-            <Input
-              value={loginValue}
-              onChange={(e) => setLoginValue(e.target.value)}
-            />
-            <Label>Password</Label>
-            <Input
-              type="password"
-              value={passwordValue}
-              onChange={(e) => setPasswordValue(e.target.value)}
-            />
-            <Button onClick={handleLoginButton} >LOG IN</Button>
+          <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={handleSubmit(handleOnSubmit)}>
+              <Label>Email</Label>
+              <Input
+                type="text"
+                {...register("email")}
+              />
+              {/* EMAIL ERRORS */}
+              <p style={{color: 'red', marginBottom: '20px'}}>
+                {errors.email?.message}
+              </p>
+
+              <Label>Password</Label>
+              <Input
+                type="password"
+                {...register("password")}
+
+              />
+              {/* PASSWORD ERRORS */}
+              <p style={{color: 'red', marginBottom: '20px'}}>
+                {errors.password?.message}
+              </p>
+
+              <Button type="submit">LOG IN</Button>
+            </form>
             <Additionals>
               <Register>
                 <Paragraph>New here?</Paragraph>
