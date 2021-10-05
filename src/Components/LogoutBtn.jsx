@@ -20,7 +20,7 @@ function RegisterView() {
       });
   };
 
-  return <button onClick={handleLogout}>Sign Out</button>;
+  return <div onClick={handleLogout}>Sign Out</div>;
 }
 
 export default RegisterView;
