@@ -2,6 +2,8 @@ import styled from "styled-components";
 import DateTime from "./DateTime";
 import { Menu } from "./Menu";
 import mario from "./images/Mario-icon.png"
+import { TransactionsView } from "./Transactions";
+import { TransactionsContainer } from "./TransactionsContainer";
 
 
 const Wrapper = styled.div`
@@ -86,7 +88,9 @@ export function PageContainer() {
           <DateTime/>
         </Header>
         <Balance></Balance>
-        <Transaction></Transaction>
+        <Transaction>
+          <TransactionsContainer></TransactionsContainer>
+        </Transaction>
       </RightPanel>
     </Wrapper>
   )
