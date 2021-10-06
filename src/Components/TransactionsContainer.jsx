@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import BasicTable from "./TransactionsTable";
-import TableEx from "./TableEx";
+import { TransactionsView } from "./Transactions";
+
+
 
 const TransactionWrapper = styled.div`
 	width: 900px;
@@ -12,6 +13,7 @@ const TransactionWrapper = styled.div`
 	background: rgba(255, 255, 255, 0.06);
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
+	overflow: auto;
 `;
 const MonthBar = styled.div`
 	width: 900px;
@@ -62,7 +64,7 @@ const TransactionsDiv = styled.div`
 export function TransactionsContainer() {
 	return (
 		<TransactionWrapper>
-			<MonthBar>
+			{/* <MonthBar>
 				<ArrowLeft>
 					<IconContext.Provider
 						value={{
@@ -86,9 +88,9 @@ export function TransactionsContainer() {
 						<BiRightArrow />
 					</IconContext.Provider>
 				</ArrowRight>
-			</MonthBar>
+			</MonthBar> */}
 			<TransactionsDiv>
-				<BasicTable></BasicTable>
+				<TransactionsView></TransactionsView>
 			</TransactionsDiv>
 		</TransactionWrapper>
 	);
