@@ -89,7 +89,7 @@ export function PageContainer() {
         </Header>
         <Balance></Balance>
         <Transaction>
-          <TransactionsContainer></TransactionsContainer>
+          <TransactionsView></TransactionsView>
         </Transaction>
       </RightPanel>
     </Wrapper>
