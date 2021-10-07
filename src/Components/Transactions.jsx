@@ -44,13 +44,13 @@ const CustomizedTableCell = styled(TableCell)({
 	},
 });
 
-const CustomizedTableCellAmount = styled(TableCell)({
-	[`&.${tableCellClasses.body}`]: {
-		color: "rgba(248, 58, 161, 1)",
-		fontSize: 16,
-		fontWeight:700
-	},
-});
+// const CustomizedTableCellAmount = styled(TableCell)({
+// 	[`&.${tableCellClasses.body}`]: {
+// 		color: "rgba(248, 58, 161, 1)",
+// 		fontSize: 16,
+// 		fontWeight:700
+// 	},
+// });
 
 const CustomizedTableBody = styled(TableBody)({
 	[`&.${tableBodyClasses.root}`]: {
@@ -87,6 +87,9 @@ export function TransactionsView() {
 	const handleEdit = (id) => {
 		console.log(id);
 	};
+
+
+
 	return (
 		<CustomizedContainer component={Paper}>
 			<Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -108,13 +111,15 @@ export function TransactionsView() {
 							<CustomizedTableCell component="th" scope="row">
 								{row.name}
 							</CustomizedTableCell>
-							<CustomizedTableCell>{row.category}</CustomizedTableCell>
+							<CustomizedTableCell>{row.date.toDate().toDateString()}</CustomizedTableCell>
 							<CustomizedTableCell align="left">
 								{row.category}
 							</CustomizedTableCell>
-							<CustomizedTableCellAmount align="left">
+							<CustomizedTableCell align="left" style={{
+								color:row.type === "expense" ? "rgba(248, 58, 161, 1)" : "rgba(46, 225, 237, 1)"
+							}}>
 								{row.value}
-							</CustomizedTableCellAmount>
+							</CustomizedTableCell>
 							<CustomizedTableCell align="left">
 								<Button
 									size="medium"
