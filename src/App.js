@@ -1,4 +1,4 @@
-import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
+import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import LoginView from "./Components/LoginView";
 // import sendToFirebase from "./sendToFirebase";
 import RegisterView from "./Components/RegisterView";
@@ -8,6 +8,7 @@ import { routerPaths } from "./helpers/routerPaths";
 import { useCurrentUser } from "./helpers/hooks";
 import { useEffect } from "react";
 import AddExpenseIncome from "./Components/AddExpenseIncome";
+import EditExpense from "./Components/EditExpense";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -41,6 +42,10 @@ function App() {
         </Route>
         <Route exact path="/add">
           <AddExpenseIncome />
+        </Route>
+
+        <Route exact path="/edit">
+          <EditExpense />
         </Route>
         <h1>No such page 😭</h1>
       </Switch>
