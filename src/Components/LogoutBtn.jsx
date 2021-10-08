@@ -24,7 +24,7 @@ function RegisterView({children}) {
     style={{
       display: 'flex',
       justifyContent: 'center'
-    }}>{children}Sign Out</div>;
+    }}>{children}</div>;
 }
 
 export default RegisterView;

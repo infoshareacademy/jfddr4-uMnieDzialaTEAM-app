@@ -105,13 +105,14 @@ export function Menu() {
         </div>
         <div className="menuText">Setings</div>
       </MenuItem>
-      <LogOut className="menu-bars">
-        <LogoutBtn>
+      <LogoutBtn>
+        <LogOut className="menu-bars">     
           <div className="menuIcon">
             <IoLogOut size={40} />
           </div>
-        </LogoutBtn>
-      </LogOut>
+          <p>Sign Out</p>
+        </LogOut>
+      </LogoutBtn>
     </>
   );
 }
