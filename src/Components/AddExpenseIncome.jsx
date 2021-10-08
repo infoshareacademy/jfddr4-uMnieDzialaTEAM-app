@@ -1,5 +1,6 @@
 import { collection, addDoc } from "firebase/firestore/lite";
 import { db } from "../firebaseConfig";
+import { useCurrentUser } from "../helpers/hooks";
 
 import { useState } from "react";
 import Box from "@mui/material/Box";
@@ -21,20 +22,26 @@ const AddExpenseIncome = function () {
   const [category, setCategory] = useState("groceries");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("expense");
-  const [selectedDate, setSelectedDate] = useState(new Date("2020-10-02"));
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [error, setError] = useState(true);
+  const currentUser = useCurrentUser();
 
   const WriteData = async (e) => {
     e.preventDefault();
+
+    const userID = currentUser.uid;
+
     try {
-      const docRef = await addDoc(collection(db, "cities"), {
-        name: title,
-        category: category,
-        value: +amount,
-        date: selectedDate,
-        type: type,
-        // uid: auth.currentUser.uid,
-      });
+      const docRef = await addDoc(
+        collection(db, "cities", userID, "transactions"),
+        {
+          name: title,
+          category: category,
+          value: +amount,
+          date: selectedDate,
+          type: type,
+        }
+      );
       setTitle("Payment");
       setCategory("groceries");
       setAmount("");
@@ -47,23 +54,13 @@ const AddExpenseIncome = function () {
   };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "rgba(59, 58, 90, 0.4)",
-        backdropFilter: "blur(6px)",
-      }}
-    >
+    <div>
       <Box
         component="form"
         sx={{
           "& .MuiTextField-root": { m: 1, width: "25ch" },
           padding: "50px",
-          width: "410px",
+          width: "425px",
           height: "466px",
           background: "#FFFFFF",
           borderRadius: "10px",
