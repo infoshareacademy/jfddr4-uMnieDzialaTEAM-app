@@ -1,13 +1,12 @@
-import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
+import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import LoginView from "./Components/LoginView";
-// import sendToFirebase from "./sendToFirebase";
 import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
-// import { AuthProvider } from "./Auth";
 import { useCurrentUser } from "./helpers/hooks";
 import { useEffect } from "react";
 import AddExpenseIncome from "./Components/AddExpenseIncome";
+import RemoveExpense from "./Components/RemoveExpense";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -42,6 +41,11 @@ function App() {
         <Route exact path="/add">
           <AddExpenseIncome />
         </Route>
+
+        <Route exact path="/delete">
+          <RemoveExpense />
+        </Route>
+
         <h1>No such page 😭</h1>
       </Switch>
     </BrowserRouter>
