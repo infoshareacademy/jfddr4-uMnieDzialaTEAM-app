@@ -160,15 +160,16 @@ const auth = getAuth();
 function LoginView() {
   const history = useHistory();
   const user = useCurrentUser();
- // VALIDATION ------------------------------------------------------------
+  const [errorMessage, setErrorMessage] = useState();
+ // VALIDATION
  const validationSchema = yup.object().shape({
-  email: yup.string().email("Invalid email address").required("Required"),
+  email: yup.string().email("Invalid email or password").required("Required email"),
   password: yup.string().min(6, "At least 6 characters").max(32, "Less than 32 characters").required("Required")
 })
 
 const formOptions = { resolver: yupResolver(validationSchema)};
 const { register, handleSubmit, formState: { errors }} = useForm(formOptions);
-// -----------------------------------------------------------------------
+//-----------
 
 const handleOnSubmit = ({email, password}) => {
   signInWithEmailAndPassword(auth, email, password)
@@ -176,9 +177,28 @@ const handleOnSubmit = ({email, password}) => {
         history.push(routerPaths.dashboard);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        alert(errorMessage);
+        let customError = '';
+
+        const errorMessage = error.code;
+
+        switch(errorMessage) {
+          case 'auth/invalid-email':
+            customError = "Email address is not valid";
+            break;
+          case 'auth/user-disabled':
+            customError = "Email address has been disabled";
+            break;
+          case 'auth/user-not-found':
+            customError = "Invalid email or password!";
+            break;
+          case 'auth/wrong-password':
+            customError = "Invalid email or password";
+            break;
+          default:
+            customError = "Network request failed";
+        }
+
+        setErrorMessage(customError);
       });
   }
 
@@ -201,6 +221,7 @@ const handleOnSubmit = ({email, password}) => {
         <RightContainer>
           <Main>
           <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={handleSubmit(handleOnSubmit)}>
+              <h3 style={{ color: 'red', marginBottom: '20px', textAlign: 'center'}}>{errorMessage}</h3>
               <Label>Email</Label>
               <Input
                 type="text"
