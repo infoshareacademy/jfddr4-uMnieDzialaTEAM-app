@@ -11,8 +11,6 @@ import RemoveExpense from "./Components/RemoveExpense";
 
 function App() {
   const currentUser = useCurrentUser();
-
-  console.log(currentUser);
   useEffect(() => {
     console.log("[App] currentUser: ", currentUser);
   });
