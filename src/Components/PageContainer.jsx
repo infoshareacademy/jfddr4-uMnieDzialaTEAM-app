@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import DateTime from "./DateTime";
 import { Menu } from "./Menu";
-import mario from "./images/Mario-icon.png";
 import AddButton from "./AddButton";
+import mario from "./images/Mario-icon.png";
+import { TransactionsContainer } from "./TransactionsContainer";
 
 const Wrapper = styled.div`
   max-width: 100vw;
@@ -92,7 +93,9 @@ export function PageContainer() {
         </Header>
         <Balance></Balance>
         <AddButton />
-        <Transaction></Transaction>
+        <Transaction>
+          <TransactionsContainer></TransactionsContainer>
+        </Transaction>
       </RightPanel>
     </Wrapper>
   );
