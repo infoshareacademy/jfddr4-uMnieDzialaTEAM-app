@@ -154,7 +154,7 @@ function RegisterView() {
         if (errorMessage === "auth/email-already-in-use") {
           customError = "Email exists. Please choose another email address.";
         } else {
-          customError = "Incorrect email. Network request failed.";
+          customError = "Incorrect email";
         }
         
         setErrorMessage(customError);
@@ -198,11 +198,10 @@ function RegisterView() {
           <InputsCont>
 
             {/* ERROR MESSAGE */}
-            <h3 style={{ color: 'red', marginBottom: '20px', textAlign: 'center'}}>{errorMessage}</h3>
-
             <Label for="email">Email</Label>
             <Input type="email" name="email" required></Input>
-            <Label for="password">Password</Label>
+            <p style={{ color: 'red', marginBottom: '20px'}}>{errorMessage}</p>
+
             <Input
               type="password"
               name="password"

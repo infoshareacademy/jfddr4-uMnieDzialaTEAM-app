@@ -9,6 +9,9 @@ import { routerPaths } from "../helpers/routerPaths.js";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../helpers/hooks";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
 
 const Logo = styled.img`
   max-width: 180px;
@@ -154,24 +157,49 @@ const Link2 = styled(Link)`
 const auth = getAuth();
 
 function LoginView() {
-  const [loginValue, setLoginValue] = useState("");
-  const [passwordValue, setPasswordValue] = useState("");
   const history = useHistory();
   const user = useCurrentUser();
+  const [errorMessage, setErrorMessage] = useState();
+ // VALIDATION
+ const validationSchema = yup.object().shape({
+  email: yup.string().email("Invalid email or password").required("Required email"),
+  password: yup.string().min(6, "At least 6 characters").max(32, "Less than 32 characters").required("Required")
+})
 
-  const handleLoginButton = (event) => {
-    event.preventDefault();
-    console.log(loginValue, passwordValue);
+const formOptions = { resolver: yupResolver(validationSchema)};
+const { register, handleSubmit, formState: { errors }} = useForm(formOptions);
+//-----------
 
-    signInWithEmailAndPassword(auth, loginValue, passwordValue)
+const handleOnSubmit = ({email, password}) => {
+  signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         history.push(routerPaths.dashboard);
       })
       .catch((error) => {
-        const errorMessage = error.message;
-        alert(errorMessage);
+        let customError = '';
+
+        const errorMessage = error.code;
+
+        switch(errorMessage) {
+          case 'auth/invalid-email':
+            customError = "Email address is not valid";
+            break;
+          case 'auth/user-disabled':
+            customError = "Email address has been disabled";
+            break;
+          case 'auth/user-not-found':
+            customError = "Invalid email or password!";
+            break;
+          case 'auth/wrong-password':
+            customError = "Invalid email or password";
+            break;
+          default:
+            customError = "Network request failed";
+        }
+
+        setErrorMessage(customError);
       });
-  };
+  }
 
   return (
     <>
@@ -191,18 +219,36 @@ function LoginView() {
         </LeftContainer>
         <RightContainer>
           <Main>
-            <Label>Email</Label>
-            <Input
-              value={loginValue}
-              onChange={(e) => setLoginValue(e.target.value)}
-            />
-            <Label>Password</Label>
-            <Input
-              type="password"
-              value={passwordValue}
-              onChange={(e) => setPasswordValue(e.target.value)}
-            />
-            <Button onClick={handleLoginButton}>LOG IN</Button>
+          <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={handleSubmit(handleOnSubmit)}>
+              
+              <Label>Email</Label>
+              <Input
+                type="email"
+                {...register("email")}
+              />
+              <p style={{ color: 'red'}}>{errorMessage}</p>
+
+              {/* EMAIL ERRORS */}
+              <p style={{color: 'red', marginBottom: '20px'}}>
+                {errors.email?.message}
+              </p>
+
+              <Label>Password</Label>
+              <Input
+                type="password"
+                name="password"
+                minLength="6"
+                required
+                {...register("password")}
+
+              />
+              {/* PASSWORD ERRORS */}
+              <p style={{color: 'red', marginBottom: '20px'}}>
+                {errors.password?.message}
+              </p>
+
+              <Button type="submit">LOG IN</Button>
+            </form>
             <Additionals>
               <Register>
                 <Paragraph>New here?</Paragraph>
