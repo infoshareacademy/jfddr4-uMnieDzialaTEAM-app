@@ -44,7 +44,7 @@ const MenuItem = styled(NavLink)`
     color: #fff;
   }
 `;
-const LogOut = styled(NavLink)`
+const LogOut = styled.div`
   position: fixed;
   width: 300px;
   height: 24px;
@@ -59,6 +59,7 @@ const LogOut = styled(NavLink)`
   text-decoration: none;
   padding: 0.5rem 0;
   margin: 0.5rem 1rem;
+  cursor: pointer;
   .menuIcon {
     padding-right: 15px;
     display: flex;
@@ -104,12 +105,14 @@ export function Menu() {
         </div>
         <div className="menuText">Setings</div>
       </MenuItem>
-      <LogOut to="/" className="menu-bars">
-        <div className="menuIcon">
-          <IoLogOut size={40} />
-        </div>
-        <LogoutBtn />
-      </LogOut>
+      <LogoutBtn>
+        <LogOut className="menu-bars">     
+          <div className="menuIcon">
+            <IoLogOut size={40} />
+          </div>
+          <p>Sign Out</p>
+        </LogOut>
+      </LogoutBtn>
     </>
   );
 }

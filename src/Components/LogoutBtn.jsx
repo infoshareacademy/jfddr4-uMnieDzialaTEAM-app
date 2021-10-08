@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 
-function RegisterView() {
+function RegisterView({children}) {
   const history = useHistory();
 
   const handleLogout = () => {
@@ -20,7 +20,11 @@ function RegisterView() {
       });
   };
 
-  return <div onClick={handleLogout}>Sign Out</div>;
+    return <div onClick={handleLogout} 
+    style={{
+      display: 'flex',
+      justifyContent: 'center'
+    }}>{children}</div>;
 }
 
 export default RegisterView;
