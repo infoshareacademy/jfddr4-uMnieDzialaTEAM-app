@@ -5,6 +5,7 @@ import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
 import { useCurrentUser } from "./helpers/hooks";
 import { useEffect } from "react";
+import DonutChart from "./Components/Chart";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -30,7 +31,9 @@ function App() {
             <PageContainer />
           )}
         </Route>
-
+        <Route exact path="/chart">
+            <DonutChart />
+          </Route>
         <Route exact path={routerPaths.noAccess}>
           <h1>No access!</h1>
         </Route>

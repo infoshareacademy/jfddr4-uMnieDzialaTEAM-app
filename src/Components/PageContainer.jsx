@@ -70,7 +70,7 @@ const Balance = styled.div`
 
 const Transaction = styled.div`
   width: 90%;
-  height: 416px;
+  /* height: 416px; */
   left: 399px;
   top: 658px;
   background: rgba(255, 255, 255, 0.06);
