@@ -158,16 +158,16 @@ function LoginView() {
   const [passwordValue, setPasswordValue] = useState("");
   const history = useHistory();
   const user = useCurrentUser();
+
   const handleLoginButton = (event) => {
-    console.log(loginValue, passwordValue);
     event.preventDefault();
+    console.log(loginValue, passwordValue);
 
     signInWithEmailAndPassword(auth, loginValue, passwordValue)
       .then((userCredential) => {
         history.push(routerPaths.dashboard);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
         alert(errorMessage);
       });
