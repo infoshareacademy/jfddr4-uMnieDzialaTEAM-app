@@ -221,12 +221,14 @@ const handleOnSubmit = ({email, password}) => {
         <RightContainer>
           <Main>
           <form style={{display: 'flex', flexDirection: 'column'}} onSubmit={handleSubmit(handleOnSubmit)}>
-              <h3 style={{ color: 'red', marginBottom: '20px', textAlign: 'center'}}>{errorMessage}</h3>
+              
               <Label>Email</Label>
               <Input
-                type="text"
+                type="email"
                 {...register("email")}
               />
+              <p style={{ color: 'red'}}>{errorMessage}</p>
+
               {/* EMAIL ERRORS */}
               <p style={{color: 'red', marginBottom: '20px'}}>
                 {errors.email?.message}
@@ -235,6 +237,9 @@ const handleOnSubmit = ({email, password}) => {
               <Label>Password</Label>
               <Input
                 type="password"
+                name="password"
+                minLength="6"
+                required
                 {...register("password")}
 
               />
