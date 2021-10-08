@@ -21,6 +21,8 @@ import TableBody, { tableBodyClasses } from "@mui/material/TableBody";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import Button from "@mui/material/Button";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { Dialog } from "@mui/material";
+import RemoveExpense from "./RemoveExpense";
 
 const StyledTableCell = styled(TableCell)({
 	[`&.${tableCellClasses.head}`]: {
@@ -61,6 +63,9 @@ const CustomizedTableBody = styled(TableBody)({
 export function TransactionsView() {
 	const [usersData, setUsersData] = useState([]);
 	const [transactions, setTransactions] = useState([]);
+	const [dialogOpen, setDialogOpen] = useState("")
+	const [clickedTransaction, setClickedTransaction] = useState("")
+
 	const q = query(collection(db, "cities"));
 	const fetchDb = async () => {
 		const usersData = await getDocs(collection(db, "cities"));
@@ -83,8 +88,11 @@ export function TransactionsView() {
 	}, []);
 	const handleDelete = (id) => {
 		console.log(id);
+		setDialogOpen("delete")
+		setClickedTransaction(id)
 	};
 	const handleEdit = (id) => {
+		setDialogOpen("edit")
 		console.log(id);
 	};
 
@@ -138,8 +146,22 @@ export function TransactionsView() {
 					))}
 				</CustomizedTableBody>
 			</Table>
+			<Dialog open={dialogOpen}  >
+				{generateDialogContent()}
+			</Dialog>
 		</CustomizedContainer>
 	);
+}
+
+
+const generateDialogContent = () => {
+	if (dialogOpen === 'edit') {
+		return <edit.... afterAction={fetchDb} />
+	}
+	if (dialogOpen === 'delete') {
+		return <remove.... />
+	}
+	return null
 }
 
 // import { db } from "../firebaseConfig";

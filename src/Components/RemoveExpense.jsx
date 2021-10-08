@@ -13,9 +13,9 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
-const RemoveExpense = function () {
+const RemoveExpense = function ({transactionId, userId, afterAction}) {
   // Tymczasowo na sztywno wpisana referencja dokumentu/wydatku (docelowo cała refernecja najlepiej gdyby przyszło propsem please?🥺)
-  const expenseId = "upTlouBbVjBtBfSNVsXr";
+  const expenseId = transactionId;
   const uid = "LhzJ4kQAec12YQnMH2BE";
   const expenseDocumentReference = doc(
     db,
@@ -30,6 +30,7 @@ const RemoveExpense = function () {
     // Zaktualizowanie wydatku w bazie danych
     try {
       await deleteDoc(expenseDocumentReference);
+      afterAction()
       console.log("Expense document has been updated.");
     } catch (err) {
       console.error("Error adding document: ", err);
