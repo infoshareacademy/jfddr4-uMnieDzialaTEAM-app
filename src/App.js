@@ -1,18 +1,13 @@
-import { Switch, Route, Link, BrowserRouter, Redirect } from "react-router-dom";
+import { Switch, Route, BrowserRouter, Redirect } from "react-router-dom";
 import LoginView from "./Components/LoginView";
-// import sendToFirebase from "./sendToFirebase";
 import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
-// import { AuthProvider } from "./Auth";
 import { useCurrentUser } from "./helpers/hooks";
 import { useEffect } from "react";
-import AddExpenseIncome from "./Components/AddExpenseIncome";
 
 function App() {
   const currentUser = useCurrentUser();
-
-  console.log(currentUser);
   useEffect(() => {
     console.log("[App] currentUser: ", currentUser);
   });
@@ -38,9 +33,6 @@ function App() {
 
         <Route exact path={routerPaths.noAccess}>
           <h1>No access!</h1>
-        </Route>
-        <Route exact path="/add">
-          <AddExpenseIncome />
         </Route>
         <h1>No such page 😭</h1>
       </Switch>

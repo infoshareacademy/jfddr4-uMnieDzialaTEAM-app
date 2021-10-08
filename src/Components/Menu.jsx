@@ -19,7 +19,6 @@ const Logo = styled.img`
 const MenuItem = styled(NavLink)`
   width: 300px;
   display: flex;
-  justify-content: center;
   color: rgba(255, 255, 255, 1);
   font-size: 16px;
   font-weight: 700;
@@ -33,6 +32,7 @@ const MenuItem = styled(NavLink)`
     padding-right: 15px;
     display: flex;
     align-items: center;
+    margin-left: 85px;
   }
   .menuText {
     display: flex;
@@ -45,12 +45,11 @@ const MenuItem = styled(NavLink)`
   }
 `;
 const LogOut = styled.div`
-  position: absolute;
+  position: fixed;
   width: 300px;
   height: 24px;
-  top: 900px;
+  bottom: 50px;
   display: flex;
-  justify-content: center;
   color: rgba(255, 255, 255, 1);
   font-size: 16px;
   font-weight: 700;
@@ -65,6 +64,7 @@ const LogOut = styled.div`
     padding-right: 15px;
     display: flex;
     align-items: center;
+    margin-left: 85px;
   }
   .menuText {
     display: flex;

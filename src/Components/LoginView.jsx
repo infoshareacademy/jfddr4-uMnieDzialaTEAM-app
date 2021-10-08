@@ -2,17 +2,16 @@ import styled from "styled-components";
 import { useEffect, useState } from "react";
 import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
-import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import '../firebaseConfig';
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import "../firebaseConfig";
 import { Redirect } from "react-router";
-import { routerPaths } from "../helpers/routerPaths.js"
+import { routerPaths } from "../helpers/routerPaths.js";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useCurrentUser } from "../helpers/hooks";
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-
 
 const Logo = styled.img`
   max-width: 180px;
@@ -204,7 +203,7 @@ const handleOnSubmit = ({email, password}) => {
 
   return (
     <>
-      { user ? <Redirect to={routerPaths.dashboard} />: <></> }
+      {user ? <Redirect to={routerPaths.dashboard} /> : <></>}
       <Container>
         <LeftContainer>
           <PositionalContainer>
