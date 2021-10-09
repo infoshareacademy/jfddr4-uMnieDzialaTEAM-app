@@ -66,8 +66,6 @@ const Transaction = styled.div`
   border-radius: 10px;
 `;
 
-const arr = [1, 1, 1, 1];
-
 export function PageContainer(props) {
   return (
     <Wrapper>
@@ -82,9 +80,12 @@ export function PageContainer(props) {
           </div>
           <DateTime />
         </Header>
-        <DonutChart arr={arr} />
+        <DonutChart transactions={props.transactions} />
         <Transaction>
-          <TransactionsContainer transactions={props.transactions} />
+          <TransactionsContainer
+            transactions={props.transactions}
+            setDMonths={props.setDMonths}
+          />
         </Transaction>
       </RightPanel>
     </Wrapper>

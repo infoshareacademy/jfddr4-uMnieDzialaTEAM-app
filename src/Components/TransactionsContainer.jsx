@@ -4,16 +4,14 @@ import { IconContext } from "react-icons";
 import { TransactionsView } from "./TransactionsView";
 
 const TransactionWrapper = styled.div`
-  height: 416px;
   left: 399px;
   top: 658px;
-  background: rgba(255, 255, 255, 0.06);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   overflow: auto;
 `;
 const MonthBar = styled.div`
-  width: 900px;
+  width: 100%;
   height: 64px;
   background: rgba(255, 255, 255, 0.22);
   border-top-left-radius: 10px;
@@ -61,31 +59,39 @@ const TransactionsDiv = styled.div`
 export function TransactionsContainer(props) {
   return (
     <TransactionWrapper>
-      {/* <MonthBar>
-				<ArrowLeft>
-					<IconContext.Provider
-						value={{
-							color: "white",
-							className: "global-class-name",
-							size: "20px",
-						}}
-					>
-						<BiLeftArrow />
-					</IconContext.Provider>
-				</ArrowLeft>
-				<MonthText>September</MonthText>
-				<ArrowRight>
-					<IconContext.Provider
-						value={{
-							color: "white",
-							className: "global-class-name",
-							size: "20px",
-						}}
-					>
-						<BiRightArrow />
-					</IconContext.Provider>
-				</ArrowRight>
-			</MonthBar> */}
+      <MonthBar>
+        <ArrowLeft
+          onClick={() => {
+            props.setDMonths((x) => x + 1);
+          }}
+        >
+          <IconContext.Provider
+            value={{
+              color: "white",
+              className: "global-class-name",
+              size: "20px",
+            }}
+          >
+            <BiLeftArrow />
+          </IconContext.Provider>
+        </ArrowLeft>
+        <MonthText>September</MonthText>
+        <ArrowRight
+          onClick={() => {
+            props.setDMonths((x) => x - 1);
+          }}
+        >
+          <IconContext.Provider
+            value={{
+              color: "white",
+              className: "global-class-name",
+              size: "20px",
+            }}
+          >
+            <BiRightArrow />
+          </IconContext.Provider>
+        </ArrowRight>
+      </MonthBar>
       <TransactionsDiv>
         <TransactionsView transactions={props.transactions}></TransactionsView>
       </TransactionsDiv>

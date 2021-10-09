@@ -9,14 +9,20 @@ import DonutChart from "./Components/Chart";
 import { db } from "./firebaseConfig";
 import { query, collection, where } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
+import { subDays, subMonths, startOfMonth, endOfMonth } from "date-fns";
 
 function App() {
   const currentUser = useCurrentUser();
   const [transactions, setTransactions] = useState([]);
+  const [dMonths, setDMonths] = useState(0);
 
-  useEffect(() => {
-    console.log("[App] currentUser: ", currentUser);
-  });
+  // useEffect(() => {
+  //   console.log("[App] currentUser: ", currentUser);
+  // }, []);
+
+  let date = new Date();
+  let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 
   useEffect(() => {
     if (!currentUser) {
@@ -26,22 +32,21 @@ function App() {
     onSnapshot(
       query(
         collection(db, "cities", currentUser.uid, "transactions"),
-        where("date", ">", new Date("2021-10-09"))
+        where("date", ">", subMonths(firstDay, dMonths)),
+        where("date", "<", subMonths(lastDay, dMonths))
       ),
       (querySnapshot) => {
         const transactions = [];
-        console.log("hej");
         querySnapshot.forEach((doc) => {
           transactions.push({
             ...doc.data(),
             key: doc.id,
           });
-          console.log("transakcje", transactions);
         });
         setTransactions(transactions);
       }
     );
-  }, [currentUser]);
+  }, [currentUser, dMonths]);
 
   return (
     <BrowserRouter>
@@ -58,7 +63,10 @@ function App() {
           {currentUser === null ? (
             <Redirect to={routerPaths.noAccess} />
           ) : (
-            <PageContainer transactions={transactions} />
+            <PageContainer
+              transactions={transactions}
+              setDMonths={setDMonths}
+            />
           )}
         </Route>
         <Route exact path="/chart">

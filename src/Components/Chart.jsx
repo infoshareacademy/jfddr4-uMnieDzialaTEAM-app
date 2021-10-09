@@ -16,6 +16,9 @@ class DonutChart extends Component {
   constructor(props) {
     super(props);
 
+    const transactions = props.transactions;
+    console.log(transactions);
+
     this.state = {
       options: {
         chart: {
@@ -130,7 +133,7 @@ class DonutChart extends Component {
           </svg> Other`,
         ],
       },
-      series: props.arr,
+      series: [1, 2, 3, 4],
     };
   }
 
