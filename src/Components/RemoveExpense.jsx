@@ -1,5 +1,4 @@
-import { doc, deleteDoc } from "firebase/firestore/lite";
-import { db } from "../firebaseConfig";
+import { deleteDoc } from "firebase/firestore/lite";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 
@@ -13,41 +12,21 @@ const Paragraph = styled.p`
   text-align: center;
 `;
 
-const RemoveExpense = function () {
-  // Tymczasowo na sztywno wpisana referencja dokumentu/wydatku (docelowo cała refernecja najlepiej gdyby przyszło propsem please?🥺)
-  const expenseId = "DXDvhXqNd9fEpB6ZUzdC";
-  const uid = "LhzJ4kQAec12YQnMH2BE";
-  const expenseDocumentReference = doc(
-    db,
-    "users",
-    uid,
-    "transactions2",
-    expenseId
-  );
-
+const RemoveExpense = function ({ expenseDocumentReference, afterAction }) {
+  // Usunięcie wydatku z bazy danych
   const RemoveData = async (e) => {
     e.preventDefault();
-    // Zaktualizowanie wydatku w bazie danych
     try {
       await deleteDoc(expenseDocumentReference);
-      console.log("Expense document has been updated.");
+      afterAction();
+      console.log("Expense document has been removed.");
     } catch (err) {
-      console.error("Error adding document: ", err);
+      console.error("Error removing document: ", err);
     }
   };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "rgba(59, 58, 90, 0.4)",
-        backdropFilter: "blur(6px)",
-      }}
-    >
+    <div>
       <Box
         component="form"
         sx={{

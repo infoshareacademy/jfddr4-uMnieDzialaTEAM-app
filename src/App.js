@@ -5,8 +5,6 @@ import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
 import { useCurrentUser } from "./helpers/hooks";
 import { useEffect } from "react";
-import AddExpenseIncome from "./Components/AddExpenseIncome";
-import RemoveExpense from "./Components/RemoveExpense";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -36,14 +34,6 @@ function App() {
         <Route exact path={routerPaths.noAccess}>
           <h1>No access!</h1>
         </Route>
-        <Route exact path="/add">
-          <AddExpenseIncome />
-        </Route>
-
-        <Route exact path="/delete">
-          <RemoveExpense />
-        </Route>
-
         <h1>No such page 😭</h1>
       </Switch>
     </BrowserRouter>
