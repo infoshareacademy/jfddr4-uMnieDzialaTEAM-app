@@ -6,7 +6,6 @@ import { routerPaths } from "./helpers/routerPaths";
 import { useCurrentUser } from "./helpers/hooks";
 import { useEffect } from "react";
 import AddExpenseIncome from "./Components/AddExpenseIncome";
-import EditExpense from "./Components/EditExpense";
 import RemoveExpense from "./Components/RemoveExpense";
 
 function App() {
@@ -41,11 +40,7 @@ function App() {
           <AddExpenseIncome />
         </Route>
 
-        <Route exact path="/edit">
-          <EditExpense />
-        </Route>
-
-        <Route exact path="/remove">
+        <Route exact path="/delete">
           <RemoveExpense />
         </Route>
 

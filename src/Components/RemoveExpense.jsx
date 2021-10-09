@@ -15,7 +15,7 @@ const Paragraph = styled.p`
 
 const RemoveExpense = function () {
   // Tymczasowo na sztywno wpisana referencja dokumentu/wydatku (docelowo cała refernecja najlepiej gdyby przyszło propsem please?🥺)
-  const expenseId = "upTlouBbVjBtBfSNVsXr";
+  const expenseId = "DXDvhXqNd9fEpB6ZUzdC";
   const uid = "LhzJ4kQAec12YQnMH2BE";
   const expenseDocumentReference = doc(
     db,
