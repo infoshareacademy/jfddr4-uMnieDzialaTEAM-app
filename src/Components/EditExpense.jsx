@@ -16,25 +16,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
-const EditExpense = function () {
+const EditExpense = function ({expenseDocumentReference, afterAction}) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date("2000-10-02"));
   const [error, setError] = useState(true);
-
-  // Tymczasowo na sztywno wpisana referencja dokumentu/wydatku (docelowo cała refernecja najlepiej gdyby przyszło propsem please?🥺)
-  const expenseId = "JCqXLIhy6LQO4IEHo2ZJ";
-  const uid = "LhzJ4kQAec12YQnMH2BE";
-  const expenseDocumentReference = doc(
-    db,
-    "users",
-    uid,
-    "transactions2",
-    expenseId
-  );
-
+  
   useEffect(() => {
     LoadData();
   }, []);
@@ -64,6 +53,7 @@ const EditExpense = function () {
         date: selectedDate,
         type: type,
       });
+      afterAction()
       console.log("Expense document has been updated.");
     } catch (err) {
       console.error("Error adding document: ", err);
@@ -71,17 +61,7 @@ const EditExpense = function () {
   };
 
   return (
-    <div
-      style={{
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "rgba(59, 58, 90, 0.4)",
-        backdropFilter: "blur(6px)",
-      }}
-    >
+    <div>
       <Box
         component="form"
         sx={{
