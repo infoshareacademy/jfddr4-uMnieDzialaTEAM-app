@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 import { IconContext } from "react-icons";
-import { TransactionsView } from "./Transactions";
+import { TransactionsView } from "./TransactionsView";
 
 const TransactionWrapper = styled.div`
-  /* height: 416px; */
+  height: 416px;
   left: 399px;
   top: 658px;
   background: rgba(255, 255, 255, 0.06);
@@ -58,7 +58,7 @@ const TransactionsDiv = styled.div`
   display: flex;
 `;
 
-export function TransactionsContainer() {
+export function TransactionsContainer(props) {
   return (
     <TransactionWrapper>
       {/* <MonthBar>
@@ -87,7 +87,7 @@ export function TransactionsContainer() {
 				</ArrowRight>
 			</MonthBar> */}
       <TransactionsDiv>
-        <TransactionsView></TransactionsView>
+        <TransactionsView transactions={props.transactions}></TransactionsView>
       </TransactionsDiv>
     </TransactionWrapper>
   );

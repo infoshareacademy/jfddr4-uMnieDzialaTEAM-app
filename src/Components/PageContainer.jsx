@@ -1,19 +1,19 @@
 import styled from "styled-components";
 import DateTime from "./DateTime";
 import { Menu } from "./Menu";
-import AddButton from "./AddButton";
 import mario from "./images/Mario-icon.png";
 import { TransactionsContainer } from "./TransactionsContainer";
+import DonutChart from "./Chart";
 
 const Wrapper = styled.div`
   max-width: 100vw;
-  min-height: 950px;
+  min-height: 1150px;
   max-height: 100vh;
   display: flex;
   background: radial-gradient(50% 50% at 50% 50%, #3d3c68 0%, #1b1a2c 100%);
 `;
 const LeftPanel = styled.div`
-  min-height: 950px;
+  min-height: 1150px;
   max-height: 100vh;
   background: #1b1a2c;
   display: flex;
@@ -21,8 +21,8 @@ const LeftPanel = styled.div`
   align-items: center;
 `;
 const RightPanel = styled.div`
+  min-height: 1150px;
   flex: 1;
-  min-height: 950px;
   height: 100vh;
   display: flex;
   border-left: #fff 1px groove;
@@ -40,7 +40,7 @@ const Header = styled.header`
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin-top: 20px;
+  margin: 20px 0px;
 
   div {
     display: flex;
@@ -58,26 +58,17 @@ const Header = styled.header`
   }
 `;
 
-const Balance = styled.div`
-  width: 90%;
-  height: 515px;
-  top: 119px;
-  left: 399px;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.06);
-  margin-top: 30px;
-`;
-
 const Transaction = styled.div`
   width: 90%;
-  /* height: 416px; */
   left: 399px;
   top: 658px;
   background: rgba(255, 255, 255, 0.06);
   border-radius: 10px;
 `;
 
-export function PageContainer() {
+const arr = [1, 1, 1, 1];
+
+export function PageContainer(props) {
   return (
     <Wrapper>
       <LeftPanel>
@@ -91,10 +82,9 @@ export function PageContainer() {
           </div>
           <DateTime />
         </Header>
-        <Balance></Balance>
-        <AddButton />
+        <DonutChart arr={arr} />
         <Transaction>
-          <TransactionsContainer></TransactionsContainer>
+          <TransactionsContainer transactions={props.transactions} />
         </Transaction>
       </RightPanel>
     </Wrapper>

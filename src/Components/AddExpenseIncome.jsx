@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore/lite";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { useCurrentUser } from "../helpers/hooks";
 
@@ -17,7 +17,7 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
-const AddExpenseIncome = function () {
+const AddExpenseIncome = function (props) {
   const [title, setTitle] = useState("Payment");
   const [category, setCategory] = useState("groceries");
   const [amount, setAmount] = useState("");
@@ -48,6 +48,7 @@ const AddExpenseIncome = function () {
       setType("expense");
       setError(true);
       console.log("Document written with ID: ", docRef.id);
+      props.onClose();
     } catch (err) {
       console.error("Error adding document: ", err);
     }

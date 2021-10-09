@@ -1,20 +1,15 @@
 import { Component } from "react";
 import Chart from "react-apexcharts";
 import styled from "styled-components";
-
-const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(50% 50% at 50% 50%, #3d3c68 0%, #1b1a2c 100%);
-`;
+import AddButton from "./AddButton";
 
 const ChartCont = styled.div`
   background: rgba(255, 255, 255, 0.06);
-  width: 650px;
+  width: 90%;
   border-radius: 10px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
 `;
 
 class DonutChart extends Component {
@@ -28,7 +23,7 @@ class DonutChart extends Component {
         },
         plotOptions: {
           pie: {
-            expandOnClick: true,
+            expandOnClick: false,
             donut: {
               labels: {
                 show: true,
@@ -135,22 +130,21 @@ class DonutChart extends Component {
           </svg> Other`,
         ],
       },
-      series: [100, 2230, 870, 276],
+      series: props.arr,
     };
   }
 
   render() {
     return (
-      <Background>
-        <ChartCont>
-          <Chart
-            options={this.state.options}
-            series={this.state.series}
-            type="donut"
-            width="600"
-          />
-        </ChartCont>
-      </Background>
+      <ChartCont>
+        <Chart
+          options={this.state.options}
+          series={this.state.series}
+          type="donut"
+          width="700"
+        />
+        <AddButton />
+      </ChartCont>
     );
   }
 }
