@@ -9,7 +9,8 @@ import DonutChart from "./Components/Chart";
 import { db } from "./firebaseConfig";
 import { query, collection, where } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
-import { subDays, subMonths, startOfMonth, endOfMonth } from "date-fns";
+import { subMonths } from "date-fns";
+import ApexChart from "./Components/ChartYear";
 
 function App() {
   const currentUser = useCurrentUser();
@@ -74,6 +75,9 @@ function App() {
         </Route>
         <Route exact path={routerPaths.noAccess}>
           <h1>No access!</h1>
+        </Route>
+        <Route exact path="/year">
+          <ApexChart></ApexChart>
         </Route>
         <h1>No such page 😭</h1>
       </Switch>

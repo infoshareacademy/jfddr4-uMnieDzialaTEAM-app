@@ -14,7 +14,6 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 const StyledTableCell = styled(TableCell)({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: "rgba(255, 255, 255, 0.06)",
     color: "rgba(255, 255, 255, 0.6)",
   },
   [`&.${tableCellClasses.body}`]: {
@@ -49,6 +48,8 @@ export function TransactionsView(props) {
   const handleEdit = (id) => {
     console.log(id);
   };
+
+  console.log("view", transactions);
 
   return (
     <CustomizedContainer component={Paper}>

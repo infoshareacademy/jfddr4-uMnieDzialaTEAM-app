@@ -16,8 +16,33 @@ class DonutChart extends Component {
   constructor(props) {
     super(props);
 
-    const transactions = props.transactions;
-    console.log(transactions);
+    // const groceries = [];
+    // const household = [];
+    // const work = [];
+    // const other = [];
+
+    // const transactionsArr = this.props.transactions;
+    // console.log("chart", transactionsArr);
+
+    // transactionsArr.filter((el) => {
+    //   if (el.type === "expense" && el.category === "groceries") {
+    //     groceries.push(el.value);
+    //   } else if (el.type === "expense" && el.category === "household") {
+    //     household.push(el.value);
+    //   } else if (el.type === "expense" && el.category === "work") {
+    //     work.push(el.value);
+    //   } else if (el.type === "expense" && el.category === "other") {
+    //     other.push(el.value);
+    //   }
+    // });
+
+    // const grocSum = groceries.reduce((acc, cur) => (acc += cur), 0);
+    // const houseSum = household.reduce((acc, cur) => (acc += cur), 0);
+    // const workSum = work.reduce((acc, cur) => (acc += cur), 0);
+    // const otherSum = other.reduce((acc, cur) => (acc += cur), 0);
+
+    // const seriesArr = [grocSum, houseSum, workSum, otherSum];
+    // console.log(seriesArr);
 
     this.state = {
       options: {
@@ -133,7 +158,7 @@ class DonutChart extends Component {
           </svg> Other`,
         ],
       },
-      series: [1, 2, 3, 4],
+      series: [1, 1, 1, 1],
     };
   }
 
