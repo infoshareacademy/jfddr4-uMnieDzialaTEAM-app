@@ -1,6 +1,5 @@
 import { React, Component } from "react";
 import ReactApexChart from "react-apexcharts";
-import Chart from "react-apexcharts";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

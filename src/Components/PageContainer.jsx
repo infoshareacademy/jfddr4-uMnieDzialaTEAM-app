@@ -4,8 +4,6 @@ import { Menu } from "./Menu";
 import mario from "./images/Mario-icon.png";
 import { TransactionsContainer } from "./TransactionsContainer";
 import DonutChart from "./Chart";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const Wrapper = styled.div`
   max-width: 100vw;
@@ -69,35 +67,6 @@ const Transaction = styled.div`
 `;
 
 export function PageContainer(props) {
-  // const groceries = [];
-  // const household = [];
-  // const work = [];
-  // const other = [];
-
-  // const transactionsArr = props.transactions;
-  // console.log(transactionsArr);
-
-  // transactionsArr.filter((el) => {
-  //   if (el.type === "expense" && el.category === "groceries") {
-  //     groceries.push(el.value);
-  //   } else if (el.type === "expense" && el.category === "household") {
-  //     household.push(el.value);
-  //   } else if (el.type === "expense" && el.category === "work") {
-  //     work.push(el.value);
-  //   } else if (el.type === "expense" && el.category === "other") {
-  //     other.push(el.value);
-  //   }
-  // });
-
-  // const grocSum = groceries.reduce((acc, cur) => (acc += cur), 0);
-  // const houseSum = household.reduce((acc, cur) => (acc += cur), 0);
-  // const workSum = work.reduce((acc, cur) => (acc += cur), 0);
-  // const otherSum = other.reduce((acc, cur) => (acc += cur), 0);
-
-  // const seriesArr = [grocSum, houseSum, workSum, otherSum];
-
-  // console.log(seriesArr);
-
   return (
     <Wrapper>
       <LeftPanel>

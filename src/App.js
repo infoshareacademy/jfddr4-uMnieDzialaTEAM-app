@@ -4,7 +4,7 @@ import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
 import { useCurrentUser } from "./helpers/hooks";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import DonutChart from "./Components/Chart";
 import { db } from "./firebaseConfig";
 import { query, collection, where } from "firebase/firestore";
@@ -21,9 +21,17 @@ function App() {
   //   console.log("[App] currentUser: ", currentUser);
   // }, []);
 
-  let date = new Date();
-  let firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-  let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+  let date = useMemo(() => new Date(), []);
+
+  let firstDay = useMemo(
+    () => new Date(date.getFullYear(), date.getMonth(), 1),
+    [date]
+  );
+
+  let lastDay = useMemo(
+    () => new Date(date.getFullYear(), date.getMonth() + 1, 1),
+    [date]
+  );
 
   useEffect(() => {
     if (!currentUser) {
@@ -47,7 +55,7 @@ function App() {
         setTransactions(transactions);
       }
     );
-  }, [currentUser, dMonths]);
+  }, [currentUser, dMonths, firstDay, lastDay]);
 
   return (
     <BrowserRouter>

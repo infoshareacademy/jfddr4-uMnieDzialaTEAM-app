@@ -49,8 +49,6 @@ export function TransactionsView(props) {
     console.log(id);
   };
 
-  console.log("view", transactions);
-
   return (
     <CustomizedContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -66,7 +64,7 @@ export function TransactionsView(props) {
         <CustomizedTableBody>
           {transactions.map((row) => (
             <TableRow
-              key={row.id}
+              key={row.key}
               sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
             >
               <CustomizedTableCell component="th" scope="row">
