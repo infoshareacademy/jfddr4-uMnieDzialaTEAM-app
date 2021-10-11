@@ -24,6 +24,7 @@ import Button from "@mui/material/Button";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import RemoveExpense from "./RemoveExpense";
 import EditExpense from "./EditExpense";
 import { useCurrentUser } from "../helpers/hooks";
 
@@ -100,6 +101,8 @@ export function TransactionsView() {
 	}, []);
 	const handleDelete = (id) => {
 		console.log(id);
+		setDialogOpen("delete");
+		setClickedTransaction(id);
 	};
 	const handleEdit = (id) => {
 		console.log(id);
@@ -109,6 +112,21 @@ export function TransactionsView() {
 
 	const currentUser = useCurrentUser();
 	const generateDialogContent = () => {
+		if (dialogOpen === "delete") {
+			const documentReference = doc(
+				db,
+				"cities",
+				currentUser.uid,
+				"transactions",
+				clickedTransaction
+			);
+			return (
+				<RemoveExpense
+					expenseDocumentReference={documentReference}
+					afterAction={afterAction}
+				/>
+			);
+		}
 		if (dialogOpen === "edit") {
 			const documentReference = doc(
 				db,
@@ -119,6 +137,7 @@ export function TransactionsView() {
 			);
 			return (
 				<EditExpense
+
 					expenseDocumentReference={documentReference}
 					afterAction={afterAction}
 				/>
