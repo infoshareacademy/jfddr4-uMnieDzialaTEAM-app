@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
