@@ -25,6 +25,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import RemoveExpense from "./RemoveExpense";
+import EditExpense from "./EditExpense";
 import { useCurrentUser } from "../helpers/hooks";
 
 const StyledTableCell = styled(TableCell)({
@@ -105,6 +106,8 @@ export function TransactionsView() {
 	};
 	const handleEdit = (id) => {
 		console.log(id);
+		setDialogOpen("edit");
+		setClickedTransaction(id);
 	};
 
 	const currentUser = useCurrentUser();
@@ -117,9 +120,24 @@ export function TransactionsView() {
 				"transactions",
 				clickedTransaction
 			);
-			console.log(documentReference);
 			return (
 				<RemoveExpense
+					expenseDocumentReference={documentReference}
+					afterAction={afterAction}
+				/>
+			);
+		}
+		if (dialogOpen === "edit") {
+			const documentReference = doc(
+				db,
+				"cities",
+				currentUser.uid,
+				"transactions",
+				clickedTransaction
+			);
+			return (
+				<EditExpense
+
 					expenseDocumentReference={documentReference}
 					afterAction={afterAction}
 				/>
