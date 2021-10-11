@@ -1,5 +1,6 @@
 import { db } from "../firebaseConfig";
 import {
+	doc,
 	collection,
 	query,
 	onSnapshot,
@@ -21,6 +22,10 @@ import TableBody, { tableBodyClasses } from "@mui/material/TableBody";
 import BackspaceIcon from "@mui/icons-material/Backspace";
 import Button from "@mui/material/Button";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import RemoveExpense from "./RemoveExpense";
+import { useCurrentUser } from "../helpers/hooks";
 
 const StyledTableCell = styled(TableCell)({
 	[`&.${tableCellClasses.head}`]: {
@@ -61,6 +66,18 @@ const CustomizedTableBody = styled(TableBody)({
 export function TransactionsView() {
 	const [usersData, setUsersData] = useState([]);
 	const [transactions, setTransactions] = useState([]);
+
+	// Zmienna stanu zawierająca typ aktualnie wyświetlanego Dialog-u.
+	// Moliwe wartości:
+	// * 'edit' dla edycji transakcji
+	// * 'delete' dla usuwania transakcji
+	// * '' (pusty string) jeśli nie wyświatlamy zadnego Dialog-u
+	const [dialogOpen, setDialogOpen] = useState("");
+
+	// Zmienna stanu zawierająca ID ostatnio klikniętej transakcji.
+	// (uzywana w Dialog-ach edycji i usuwania transakcji)
+	const [clickedTransaction, setClickedTransaction] = useState("");
+
 	const q = query(collection(db, "cities"));
 	const fetchDb = async () => {
 		const usersData = await getDocs(collection(db, "cities"));
@@ -83,12 +100,47 @@ export function TransactionsView() {
 	}, []);
 	const handleDelete = (id) => {
 		console.log(id);
+		setDialogOpen("delete");
+		setClickedTransaction(id);
 	};
 	const handleEdit = (id) => {
 		console.log(id);
 	};
 
+	const currentUser = useCurrentUser();
+	const generateDialogContent = () => {
+		if (dialogOpen === "delete") {
+			const documentReference = doc(
+				db,
+				"cities",
+				currentUser.uid,
+				"transactions",
+				clickedTransaction
+			);
+			console.log(documentReference);
+			return (
+				<RemoveExpense
+					expenseDocumentReference={documentReference}
+					afterAction={afterAction}
+				/>
+			);
+		}
+		return null;
 
+		// Wykonywane po zakończeniu akcji w kazdym Dialog-u
+		function afterAction() {
+			closeDialog();
+			// Odświez liste transakcji
+			fetchDb();
+		}
+	};
+	const closeDialog = () => setDialogOpen("");
+	const boxStyle = {
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%, -50%)",
+	};
 
 	return (
 		<CustomizedContainer component={Paper}>
@@ -138,6 +190,15 @@ export function TransactionsView() {
 					))}
 				</CustomizedTableBody>
 			</Table>
+
+			<Modal
+				open={dialogOpen !== ""}
+				onClose={closeDialog}
+				aria-labelledby="modal-modal-title"
+				aria-describedby="modal-modal-description"
+			>
+				<Box sx={boxStyle}>{generateDialogContent()}</Box>
+			</Modal>
 		</CustomizedContainer>
 	);
 }
