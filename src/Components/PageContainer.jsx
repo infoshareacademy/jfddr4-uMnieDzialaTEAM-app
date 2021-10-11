@@ -2,8 +2,6 @@ import styled from "styled-components";
 import DateTime from "./DateTime";
 import { Menu } from "./Menu";
 import mario from "./images/Mario-icon.png";
-import { TransactionsContainer } from "./TransactionsContainer";
-import DonutChart from "./Chart";
 
 const Wrapper = styled.div`
   max-width: 100vw;
@@ -58,14 +56,6 @@ const Header = styled.header`
   }
 `;
 
-const Transaction = styled.div`
-  width: 90%;
-  left: 399px;
-  top: 658px;
-  background: rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-`;
-
 export function PageContainer(props) {
   return (
     <Wrapper>
@@ -80,13 +70,7 @@ export function PageContainer(props) {
           </div>
           <DateTime />
         </Header>
-        <DonutChart transactions={props.transactions} />
-        <Transaction>
-          <TransactionsContainer
-            transactions={props.transactions}
-            setDMonths={props.setDMonths}
-          />
-        </Transaction>
+        {props.children}
       </RightPanel>
     </Wrapper>
   );

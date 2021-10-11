@@ -11,6 +11,16 @@ import { query, collection, where } from "firebase/firestore";
 import { onSnapshot } from "firebase/firestore";
 import { subMonths } from "date-fns";
 import ApexChart from "./Components/ChartYear";
+import { TransactionsContainer } from "./Components/TransactionsContainer";
+import styled from "styled-components";
+
+const Transaction = styled.div`
+  width: 90%;
+  left: 399px;
+  top: 658px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+`;
 
 function App() {
   const currentUser = useCurrentUser();
@@ -68,14 +78,19 @@ function App() {
           <RegisterView />
         </Route>
 
-        <Route exact path={routerPaths.dashboard}>
+        <Route exact path={routerPaths.home}>
           {currentUser === null ? (
             <Redirect to={routerPaths.noAccess} />
           ) : (
-            <PageContainer
-              transactions={transactions}
-              setDMonths={setDMonths}
-            />
+            <PageContainer>
+              <DonutChart transactions={transactions} />
+              <Transaction>
+                <TransactionsContainer
+                  transactions={transactions}
+                  setDMonths={setDMonths}
+                />
+              </Transaction>
+            </PageContainer>
           )}
         </Route>
         <Route exact path="/chart">
@@ -84,10 +99,14 @@ function App() {
         <Route exact path={routerPaths.noAccess}>
           <h1>No access!</h1>
         </Route>
-        <Route exact path="/year">
-          <ApexChart></ApexChart>
+        <Route exact path={routerPaths.trends}>
+          <PageContainer>
+            <ApexChart></ApexChart>
+          </PageContainer>
         </Route>
-        <h1>No such page 😭</h1>
+        <Route>
+          <h1>No such page 😭</h1>
+        </Route>
       </Switch>
     </BrowserRouter>
   );
