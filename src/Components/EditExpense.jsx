@@ -1,6 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore/lite";
-import { db } from "../firebaseConfig";
-
+import { getDoc, updateDoc } from "firebase/firestore/lite";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
@@ -16,14 +14,14 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
-const EditExpense = function ({expenseDocumentReference, afterAction}) {
+const EditExpense = function ({ expenseDocumentReference, afterAction }) {
   const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
   const [type, setType] = useState("");
   const [selectedDate, setSelectedDate] = useState(new Date("2000-10-02"));
   const [error, setError] = useState(true);
-  
+
   useEffect(() => {
     LoadData();
   }, []);
@@ -53,7 +51,7 @@ const EditExpense = function ({expenseDocumentReference, afterAction}) {
         date: selectedDate,
         type: type,
       });
-      afterAction()
+      afterAction();
       console.log("Expense document has been updated.");
     } catch (err) {
       console.error("Error adding document: ", err);
