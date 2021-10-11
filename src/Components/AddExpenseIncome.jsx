@@ -1,4 +1,4 @@
-import { collection, addDoc } from "firebase/firestore/lite";
+import { collection, addDoc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import { useCurrentUser } from "../helpers/hooks";
 

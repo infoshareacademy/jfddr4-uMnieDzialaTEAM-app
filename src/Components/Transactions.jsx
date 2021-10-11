@@ -1,5 +1,5 @@
 import { db } from "../firebaseConfig";
-import { doc, collection, getDocs } from "firebase/firestore/lite";
+import { doc, collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -76,13 +76,21 @@ export function TransactionsView() {
   const fetchDb = async () => {
     // const usersData = await getDocs(collection(db, "cities"));
     // const transactions = await getDocs(collectionGroup(db, "transactions"));
+    console.log(db);
     const citiesRef = collection(db, "cities");
     const userDoc = doc(citiesRef, currentUser.uid);
     const transactionsCollection = collection(userDoc, "transactions");
-    const transactions = await getDocs(transactionsCollection);
-
-    // const usersState = [];
     const transactionsState = [];
+    onSnapshot(transactionsCollection, (snapshot) => {
+      snapshot.forEach((transaction) => {
+        transactionsState.push({
+          ...transaction.data(),
+          id: transaction.id,
+        });
+      });
+    });
+    // const usersState = [];
+
     // usersData.forEach((doc) => {
     // 	console.log(`${doc.id}`, doc.data());
     // 	usersState.push({ ...doc.data(), id: doc.id });
@@ -145,7 +153,7 @@ export function TransactionsView() {
     function afterAction() {
       closeDialog();
       // Odświez liste transakcji
-      fetchDb();
+      //   fetchDb();
     }
   };
   const closeDialog = () => setDialogOpen("");
