@@ -1,5 +1,5 @@
 import { db } from "../firebaseConfig";
-import { doc, collection, getDocs } from "firebase/firestore/lite";
+import { doc, collection, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -74,24 +74,20 @@ export function TransactionsView() {
   const [clickedTransaction, setClickedTransaction] = useState("");
 
   const fetchDb = async () => {
-    // const usersData = await getDocs(collection(db, "cities"));
-    // const transactions = await getDocs(collectionGroup(db, "transactions"));
-    const citiesRef = collection(db, "cities");
-    const userDoc = doc(citiesRef, currentUser.uid);
-    const transactionsCollection = collection(userDoc, "transactions");
-    const transactions = await getDocs(transactionsCollection);
-
-    // const usersState = [];
-    const transactionsState = [];
-    // usersData.forEach((doc) => {
-    // 	console.log(`${doc.id}`, doc.data());
-    // 	usersState.push({ ...doc.data(), id: doc.id });
-    // });
-    // setUsersData(usersState);
-    transactions.forEach((doc) => {
-      transactionsState.push({ ...doc.data(), id: doc.id });
+    const transactionsCollection = collection(
+      db,
+      `cities/${currentUser.uid}/transactions`
+    );
+    onSnapshot(transactionsCollection, (snapshot) => {
+      const transactionsState = [];
+      snapshot.forEach((transaction) => {
+        transactionsState.push({
+          ...transaction.data(),
+          id: transaction.id,
+        });
+      });
+      setTransactions(transactionsState);
     });
-    setTransactions(transactionsState);
   };
   useEffect(() => {
     if (currentUser) {

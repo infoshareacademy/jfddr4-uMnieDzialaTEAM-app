@@ -1,4 +1,4 @@
-import { getDoc, updateDoc } from "firebase/firestore/lite";
+import { getDoc, updateDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
