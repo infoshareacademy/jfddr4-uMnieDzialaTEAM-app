@@ -126,11 +126,7 @@ const StyledLink = styled(Link)`
 `;
 
 function RegisterView() {
-  const [loading, setLoading] = useState(false);
   const currentUser = useCurrentUser();
-
-  //logic for modal and backdrop
-  const [showModal, setShowModal] = useState(false);
 
   // errorMessage for modal
   const [errorMessage, setErrorMessage] = useState("");
@@ -138,15 +134,11 @@ function RegisterView() {
   const auth = getAuth();
 
   const handleSubmit = (e) => {
-    setLoading(true);
-
     e.preventDefault();
     const { email, password } = e.target.elements;
 
     createUserWithEmailAndPassword(auth, email.value, password.value)
-      .then(() => {
-        setLoading(false);
-      })
+      .then(() => {})
       .catch((err) => {
         let customError = "";
 
@@ -156,15 +148,11 @@ function RegisterView() {
           if (errorMessage === "auth/email-already-in-use") {
             customError = "Email exists. Please choose another email address.";
           } else {
-            customError = "Incorrect email. Network request failed.";
+            customError = "Incorrect email";
           }
 
           setErrorMessage(customError);
         }
-
-        // alert(customError);
-        setShowModal(true);
-        setLoading(false);
       });
   };
 
@@ -176,7 +164,7 @@ function RegisterView() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [auth]);
 
   if (currentUser) {
     return <Redirect to={routerPaths.dashboard} />;
@@ -197,19 +185,10 @@ function RegisterView() {
         <form onSubmit={handleSubmit}>
           <InputsCont>
             {/* ERROR MESSAGE */}
-            <h3
-              style={{
-                color: "red",
-                marginBottom: "20px",
-                textAlign: "center",
-              }}
-            >
-              {errorMessage}
-            </h3>
-
             <Label for="email">Email</Label>
             <Input type="email" name="email" required></Input>
-            <Label for="password">Password</Label>
+            <p style={{ color: "red", marginBottom: "20px" }}>{errorMessage}</p>
+
             <Input
               type="password"
               name="password"

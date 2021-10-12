@@ -1,8 +1,5 @@
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
-import { useCurrentUser } from "../helpers/hooks";
-
-import { useState } from "react";
+import { getDoc, updateDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -17,38 +14,45 @@ import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
-const AddExpenseIncome = function ({ onClose }) {
-  const [title, setTitle] = useState("Payment");
-  const [category, setCategory] = useState("groceries");
+const EditExpense = function ({ expenseDocumentReference, afterAction }) {
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [amount, setAmount] = useState("");
-  const [type, setType] = useState("expense");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [type, setType] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date("2000-10-02"));
   const [error, setError] = useState(true);
-  const currentUser = useCurrentUser();
 
-  const WriteData = async (e) => {
+  useEffect(() => {
+    LoadData();
+  }, []);
+
+  const LoadData = async () => {
+    // Pobranie wydatku z bazy danych
+    const expenseDocument = await getDoc(expenseDocumentReference);
+    const expense = expenseDocument.data();
+
+    // Uzupełnienie formularza danymi
+    setTitle(expense.name);
+    setCategory(expense.category);
+    setAmount(expense.value);
+    setType(expense.type);
+    setSelectedDate(expense.date.toDate());
+    setError(false);
+  };
+
+  const UpdateData = async (e) => {
     e.preventDefault();
-
-    const userID = currentUser.uid;
-
+    // Zaktualizowanie wydatku w bazie danych
     try {
-      const docRef = await addDoc(
-        collection(db, "cities", userID, "transactions"),
-        {
-          name: title,
-          category: category,
-          value: +amount,
-          date: selectedDate,
-          type: type,
-        }
-      );
-      setTitle("Payment");
-      setCategory("groceries");
-      setAmount("");
-      setType("expense");
-      setError(true);
-      onClose();
-      console.log("Document written with ID: ", docRef.id);
+      await updateDoc(expenseDocumentReference, {
+        name: title,
+        category: category,
+        value: +amount,
+        date: selectedDate,
+        type: type,
+      });
+      afterAction();
+      console.log("Expense document has been updated.");
     } catch (err) {
       console.error("Error adding document: ", err);
     }
@@ -61,7 +65,7 @@ const AddExpenseIncome = function ({ onClose }) {
         sx={{
           "& .MuiTextField-root": { m: 1, width: "25ch" },
           padding: "50px",
-          width: "425px",
+          width: "410px",
           height: "466px",
           background: "#FFFFFF",
           borderRadius: "10px",
@@ -78,7 +82,6 @@ const AddExpenseIncome = function ({ onClose }) {
           label="Title"
           value={title}
           variant="outlined"
-          onClick={(e) => (e.target.value = "")}
           onChange={(e) => setTitle(e.target.value)}
           onBlur={(e) => (title === "" ? setTitle("Payment") : undefined)}
         />
@@ -178,14 +181,14 @@ const AddExpenseIncome = function ({ onClose }) {
             fontSize: "16px",
             lineHeight: "24px",
           }}
-          onClick={WriteData}
+          onClick={UpdateData}
           disabled={error}
         >
-          ADD
+          SAVE
         </button>
       </Box>
     </div>
   );
 };
 
-export default AddExpenseIncome;
+export default EditExpense;
