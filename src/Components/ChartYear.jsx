@@ -1,4 +1,4 @@
-import { React, Component } from "react";
+import { React } from "react";
 import ReactApexChart from "react-apexcharts";
 import styled from "styled-components";
 
@@ -19,11 +19,9 @@ const ChartCont = styled.div`
   align-items: center;
 `;
 
-class ApexChart extends Component {
-  constructor(props) {
-    super(props);
+function ApexChart() {
 
-    this.state = {
+    const data = {
       series: [
         {
           name: `<svg width="20" height="15" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -157,15 +155,13 @@ class ApexChart extends Component {
         colors: ["#2EE1ED", "#7037EA", "#F83AA1", "#F2B18D"],
       },
     };
-  }
-
-  render() {
+  
     return (
       <Wrapper>
         <ChartCont>
           <ReactApexChart
-            options={this.state.options}
-            series={this.state.series}
+            options={data.options}
+            series={data.series}
             type="bar"
             height={650}
             width={1000}
@@ -173,7 +169,6 @@ class ApexChart extends Component {
         </ChartCont>
       </Wrapper>
     );
-  }
 }
 
 export default ApexChart;

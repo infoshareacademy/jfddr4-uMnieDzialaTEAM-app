@@ -98,10 +98,6 @@ export function TransactionsView(props) {
     return null;
 
     // Wykonywane po zakończeniu akcji w kazdym Dialog-u
-    function afterAction() {
-      closeDialog();
-      // Odświez liste transakcji
-    }
   };
   const closeDialog = () => setDialogOpen("");
   const boxStyle = {

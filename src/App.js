@@ -27,7 +27,6 @@ function App() {
   const [transactions, setTransactions] = useState([]);
   const [dMonths, setDMonths] = useState(0);
 
-
   // useEffect(() => {
   //   console.log("[App] currentUser: ", currentUser);
   // }, []);

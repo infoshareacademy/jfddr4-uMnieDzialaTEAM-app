@@ -56,6 +56,8 @@ const TransactionsDiv = styled.div`
   display: flex;
 `;
 
+
+
 export function TransactionsContainer(props) {
   return (
     <TransactionWrapper>
@@ -75,7 +77,7 @@ export function TransactionsContainer(props) {
             <BiLeftArrow />
           </IconContext.Provider>
         </ArrowLeft>
-        <MonthText>September</MonthText>
+        <MonthText></MonthText>
         <ArrowRight
           onClick={() => {
             props.setDMonths((x) => x - 1);
