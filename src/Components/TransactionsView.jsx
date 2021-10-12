@@ -21,6 +21,7 @@ import EditExpense from "./EditExpense";
 import { useCurrentUser } from "../helpers/hooks";
 
 
+
 const StyledTableCell = styled(TableCell)({
   [`&.${tableCellClasses.head}`]: {
     color: "rgba(255, 255, 255, 0.6)",
@@ -52,15 +53,18 @@ export function TransactionsView(props) {
   const transactions = props.transactions;
   const [dialogOpen, setDialogOpen] = useState("");
   const [clickedTransaction, setClickedTransaction] = useState("");
+  const currentUser = useCurrentUser();
+
   const handleDelete = (id) => {
-    setDialogOpen("delete");
     setClickedTransaction(id);
+    setDialogOpen("delete");
   };
   const handleEdit = (id) => {
-    setDialogOpen("edit");
     setClickedTransaction(id);
+    setDialogOpen("edit");
   };
   const generateDialogContent = () => {
+    debugger
     if (dialogOpen === "delete") {
       const documentReference = doc(
         db,
@@ -72,7 +76,7 @@ export function TransactionsView(props) {
       return (
         <RemoveExpense
           expenseDocumentReference={documentReference}
-          afterAction={afterAction}
+          afterAction={closeDialog}
         />
       );
     }
@@ -87,7 +91,7 @@ export function TransactionsView(props) {
       return (
         <EditExpense
           expenseDocumentReference={documentReference}
-          afterAction={afterAction}
+          afterAction={closeDialog}
         />
       );
     }
@@ -97,7 +101,6 @@ export function TransactionsView(props) {
     function afterAction() {
       closeDialog();
       // Odświez liste transakcji
-      fetchDb();
     }
   };
   const closeDialog = () => setDialogOpen("");
@@ -150,13 +153,13 @@ export function TransactionsView(props) {
                   size="medium"
                   color="inherit"
                   startIcon={<EditOutlinedIcon />}
-                  onClick={() => handleEdit(row.id)}
+                  onClick={() => handleEdit(row.key)}
                 ></Button>
                 <Button
                   size="medium"
                   color="inherit"
                   startIcon={<BackspaceIcon />}
-                  onClick={() => handleDelete(row.id)}
+                  onClick={() => handleDelete(row.key)}
                 ></Button>
               </CustomizedTableCell>
             </TableRow>
@@ -174,3 +177,7 @@ export function TransactionsView(props) {
     </CustomizedContainer>
   );
 }
+
+
+
+
