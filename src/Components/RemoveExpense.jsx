@@ -1,4 +1,4 @@
-import { deleteDoc } from "firebase/firestore/lite";
+import { deleteDoc } from "firebase/firestore";
 import Box from "@mui/material/Box";
 import styled from "styled-components";
 
@@ -19,10 +19,7 @@ const RemoveExpense = function ({ expenseDocumentReference, afterAction }) {
     try {
       await deleteDoc(expenseDocumentReference);
       afterAction();
-      console.log("Expense document has been removed.");
-    } catch (err) {
-      console.error("Error removing document: ", err);
-    }
+    } catch (err) {}
   };
 
   return (

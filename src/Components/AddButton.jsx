@@ -42,7 +42,7 @@ export default function AddButton() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <AddExpenseIncome />
+          <AddExpenseIncome onClose={handleClose} />
         </Box>
       </Modal>
     </div>
