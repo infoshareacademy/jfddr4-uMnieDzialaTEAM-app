@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { useCurrentUser } from "../helpers/hooks";
 import { getDocs, collection, query, where } from "@firebase/firestore";
 import { db } from "../firebaseConfig";
-import { debug } from "loglevel";
 
 const Wrapper = styled.div`
 	height: 100vh;
@@ -30,9 +29,9 @@ const SelectChart = styled.select`
 	margin-bottom: 15px;
 	width: 10%;
 	background-color: #3c3b5a;
-  height: 30px;
-  color: white;
-  font-size: 16px;
+	height: 30px;
+	color: white;
+	font-size: 16px;
 `;
 
 const SelectYear = ({ onChange, ...props }) => {
@@ -60,8 +59,6 @@ function ApexChart() {
 			return;
 		}
 		const fetchFirestore = async () => {
-			console.log(start, end, currentUser);
-			// debugger;
 			const queryDate = query(
 				collection(db, "users", currentUser.uid, "transactions"),
 				where("type", "==", "expense"),
@@ -69,12 +66,10 @@ function ApexChart() {
 				where("date", "<", new Date(end))
 			);
 			const querySnapshot = await getDocs(queryDate);
-			console.log(querySnapshot.size);
 			setTransactions(querySnapshot.docs.map((t) => t.data()));
 		};
 
 		fetchFirestore();
-	
 	}, [start, end, currentUser]);
 
 	const categories = ["groceries", "household", "work", "other"];
@@ -89,7 +84,6 @@ function ApexChart() {
 		const month = transaction.date.toDate().getMonth();
 		data2[category][month] += transaction.value;
 	});
-	console.log(data2);
 
 	const data = {
 		series: [

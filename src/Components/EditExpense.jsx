@@ -1,5 +1,5 @@
 import { getDoc, updateDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
@@ -22,11 +22,9 @@ const EditExpense = function ({ expenseDocumentReference, afterAction }) {
   const [selectedDate, setSelectedDate] = useState(new Date("2000-10-02"));
   const [error, setError] = useState(true);
 
-  useEffect(() => {
-    LoadData();
-  }, []);
+  
 
-  const LoadData = async () => {
+  const LoadData = useCallback(async () => {
     // Pobranie wydatku z bazy danych
     const expenseDocument = await getDoc(expenseDocumentReference);
     const expense = expenseDocument.data();
@@ -38,7 +36,11 @@ const EditExpense = function ({ expenseDocumentReference, afterAction }) {
     setType(expense.type);
     setSelectedDate(expense.date.toDate());
     setError(false);
-  };
+  },[expenseDocumentReference]);
+
+  useEffect(() => {
+    LoadData();
+  }, [LoadData]);
 
   const UpdateData = async (e) => {
     e.preventDefault();

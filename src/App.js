@@ -41,8 +41,6 @@ function App() {
 
 	const monthLabel = format(subMonths(firstDay, dMonths), "MMMM");
 
-	console.log(subMonths(firstDay, dMonths));
-
 	useEffect(() => {
 		if (!currentUser) {
 			return;
