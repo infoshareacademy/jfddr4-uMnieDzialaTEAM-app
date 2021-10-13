@@ -62,7 +62,6 @@ export function TransactionsView(props) {
     setDialogOpen("edit");
   };
   const generateDialogContent = () => {
-    debugger;
     if (dialogOpen === "delete") {
       const documentReference = doc(
         db,
