@@ -3,7 +3,11 @@ import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
 import React, { useState, useEffect } from "react";
 import { Redirect, Link } from "react-router-dom";
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  getAuth,
+  onAuthStateChanged,
+} from "firebase/auth";
 import { routerPaths } from "../helpers/routerPaths";
 import { useCurrentUser } from "../helpers/hooks";
 
@@ -121,62 +125,46 @@ const StyledLink = styled(Link)`
   margin-top: 8px;
 `;
 
-
 function RegisterView() {
-  const [loading, setLoading] = useState(false);
   const currentUser = useCurrentUser();
 
-  //logic for modal and backdrop
-  const [showModal, setShowModal] = useState(false);
-
   // errorMessage for modal
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const auth = getAuth();
 
   const handleSubmit = (e) => {
-  setLoading(true);
-
     e.preventDefault();
     const { email, password } = e.target.elements;
 
-    createUserWithEmailAndPassword( auth , email.value, password.value).then(
-      () => {
-        setLoading(false);
+    createUserWithEmailAndPassword(auth, email.value, password.value)
+      .then(() => {})
+      .catch((err) => {
+        let customError = "";
 
-      }
-    ).catch((err)=> {
-      let customError = '';
+        if (err.name === "FirebaseError") {
+          const errorMessage = err.code;
 
-      if (err.name === "FirebaseError") {
-        const errorMessage = err.code;
+          if (errorMessage === "auth/email-already-in-use") {
+            customError = "Email exists. Please choose another email address.";
+          } else {
+            customError = "Incorrect email";
+          }
 
-        if (errorMessage === "auth/email-already-in-use") {
-          customError = "Email exists. Please choose another email address.";
-        } else {
-          customError = "Incorrect email";
+          setErrorMessage(customError);
         }
-        
-        setErrorMessage(customError);
-      }
-
-      // alert(customError);
-      setShowModal(true);
-      setLoading(false);
-    })
-
+      });
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, user => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       console.log(user);
-    })
+    });
 
     return () => {
-      unsubscribe()
-    } 
-  },[])
-
+      unsubscribe();
+    };
+  }, [auth]);
 
   if (currentUser) {
     return <Redirect to={routerPaths.dashboard} />;
@@ -196,11 +184,10 @@ function RegisterView() {
       <RightPanel>
         <form onSubmit={handleSubmit}>
           <InputsCont>
-
             {/* ERROR MESSAGE */}
             <Label for="email">Email</Label>
             <Input type="email" name="email" required></Input>
-            <p style={{ color: 'red', marginBottom: '20px'}}>{errorMessage}</p>
+            <p style={{ color: "red", marginBottom: "20px" }}>{errorMessage}</p>
 
             <Input
               type="password"
