@@ -2,7 +2,11 @@ import styled from "styled-components";
 import { useState } from "react";
 import logo from "./images/logo.svg";
 import compass from "./images/compass.svg";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+	getAuth,
+	signInWithEmailAndPassword,
+	sendPasswordResetEmail,
+} from "firebase/auth";
 import "../firebaseConfig";
 import { Redirect } from "react-router";
 import { routerPaths } from "../helpers/routerPaths.js";
@@ -154,12 +158,26 @@ const Link2 = styled(Link)`
 	margin-top: 8px;
 `;
 
+const LinkButton = styled.a`
+	font-family: Inter;
+	font-style: normal;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 24px;
+	color: #2ee1ed;
+	margin-top: 8px;
+	cursor: pointer;
+	text-decoration: underline;
+`;
+
 const auth = getAuth();
 
 function LoginView() {
 	const history = useHistory();
 	const user = useCurrentUser();
 	const [errorMessage, setErrorMessage] = useState();
+	const [loginForm, setLoginForm] = useState(true);
+	const [loading, setLoading] = useState(false);
 	// VALIDATION
 	const validationSchema = yup.object().shape({
 		email: yup
@@ -181,7 +199,50 @@ function LoginView() {
 	} = useForm(formOptions);
 	//-----------
 
-	const handleOnSubmit = ({ email, password }) => {
+	// VALIDATION FOR RESET PASSWORD -------------------------------------
+	const validationSchemaForReset = yup.object().shape({
+		email: yup.string().email("Invalid email address").required("Required"),
+	});
+	const formOptionsForReset = {
+		resolver: yupResolver(validationSchemaForReset),
+	};
+	const {
+		register: registerForReset,
+		handleSubmit: handleForReset,
+		formState: { errors: errorsForReset },
+	} = useForm(formOptionsForReset);
+	// -----------------------------------------------------------------------
+	const handlePasswordReset = ({ email }) => {
+		setLoading(true);
+
+		sendPasswordResetEmail(auth, email)
+			.then(() => {
+				setLoginForm(true);
+				setLoading(false);
+				setErrorMessage("");
+			})
+			.catch((error) => {
+				let customError = "";
+
+				const errorMessage = error.code;
+
+				switch (errorMessage) {
+					case "auth/invalid-email":
+						customError = "Email address is not valid.";
+						break;
+					case "auth/user-not-found":
+						customError = "There is no user corresponding to the given email.";
+						break;
+					default:
+						customError = "Network request failed.";
+				}
+
+				setLoading(false);
+				setErrorMessage(customError);
+			});
+	};
+
+	const handleLoginSubmit = ({ email, password }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
 				history.push(routerPaths.dashboard);
@@ -212,65 +273,105 @@ function LoginView() {
 			});
 	};
 
-	if (user) {
-		return <Redirect to={routerPaths.home} />;
-	}
-
 	return (
-		<Container>
-			<LeftContainer>
-				<PositionalContainer>
-					<Logo alt="logo" src={logo}></Logo>
-					<Heading>
-						Log in <br />
-						and check your <br /> saving journey
-					</Heading>
-				</PositionalContainer>
-				<ImgCont>
-					<Compass src={compass} alt="compass"></Compass>
-				</ImgCont>
-			</LeftContainer>
-			<RightContainer>
-				<Main>
-					<form
-						style={{ display: "flex", flexDirection: "column" }}
-						onSubmit={handleSubmit(handleOnSubmit)}
-					>
-						<Label>Email</Label>
-						<Input type="email" {...register("email")} />
-						<p style={{ color: "red" }}>{errorMessage}</p>
+		<>
+			{user ? <Redirect to={routerPaths.dashboard} /> : <></>}
+			<Container>
+				<LeftContainer>
+					<PositionalContainer>
+						<Logo alt="logo" src={logo}></Logo>
+						{!loginForm ? (
+							<Heading>
+								Reset <br />
+								your password
+							</Heading>
+						) : (
+							<Heading>
+								Log in <br />
+								and check your <br /> saving journey
+							</Heading>
+						)}
+					</PositionalContainer>
+					<ImgCont>
+						<Compass src={compass} alt="compass"></Compass>
+					</ImgCont>
+				</LeftContainer>
+				<RightContainer>
+					<Main>
+						{loginForm && (
+							<form
+								style={{ display: "flex", flexDirection: "column" }}
+								onSubmit={handleSubmit(handleLoginSubmit)}
+							>
+								<Label>Email</Label>
+								<Input type="email" {...register("email")} />
+								<p style={{ color: "red" }}>{errorMessage}</p>
 
-						{/* EMAIL ERRORS */}
-						<p style={{ color: "red", marginBottom: "20px" }}>
-							{errors.email?.message}
-						</p>
+								{/* EMAIL ERRORS */}
+								<p style={{ color: "red", marginBottom: "20px" }}>
+									{errors.email?.message}
+								</p>
 
-						<Label>Password</Label>
-						<Input
-							type="password"
-							name="password"
-							minLength="6"
-							required
-							{...register("password")}
-						/>
-						{/* PASSWORD ERRORS */}
-						<p style={{ color: "red", marginBottom: "20px" }}>
-							{errors.password?.message}
-						</p>
+								<Label>Password</Label>
+								<Input
+									type="password"
+									name="password"
+									minLength="6"
+									required
+									{...register("password")}
+								/>
+								{/* PASSWORD ERRORS */}
+								<p style={{ color: "red", marginBottom: "20px" }}>
+									{errors.password?.message}
+								</p>
 
-						<Button type="submit">LOG IN</Button>
-					</form>
-					<Additionals>
-						<Register>
-							<Paragraph>New here?</Paragraph>
-							<Link2 to={routerPaths.register}>Register now</Link2>
-						</Register>
-						<Link2 href="#">Forgot password?</Link2>
-					</Additionals>
-				</Main>
-			</RightContainer>
-		</Container>
+								<Button type="submit">LOG IN</Button>
+							</form>
+						)}
+
+						{!loginForm && (
+							<form
+								style={{ display: "flex", flexDirection: "column" }}
+								onSubmit={handleForReset(handlePasswordReset)}
+							>
+								<h3
+									style={{
+										color: "red",
+										marginBottom: "20px",
+										textAlign: "center",
+									}}
+								>
+									{errorMessage}
+								</h3>
+
+								<Label>Email</Label>
+								<Input type="text" {...registerForReset("email")} />
+								{/* EMAIL ERRORS */}
+								<p style={{ color: "red", marginBottom: "20px" }}>
+									{errorsForReset.email?.message}
+								</p>
+
+								<Button type="submit">
+									{loading ? "Loading..." : "Reset"}
+								</Button>
+							</form>
+						)}
+						<Additionals>
+							<Register>
+								<Paragraph>New here?</Paragraph>
+								<Link2 to={routerPaths.register}>Register now</Link2>
+							</Register>
+							<LinkButton
+								onClick={() => setLoginForm((prevValue) => !prevValue)}
+							>
+								{loginForm ? "Forgot password?" : "Login"}
+							</LinkButton>
+						</Additionals>
+					</Main>
+				</RightContainer>
+			</Container>
+		</>
 	);
 }
 
-export default LoginView;
+export default LoginView
