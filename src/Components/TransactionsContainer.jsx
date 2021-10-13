@@ -76,7 +76,7 @@ export function TransactionsContainer(props) {
             <BiLeftArrow />
           </IconContext.Provider>
         </ArrowLeft>
-        <MonthText></MonthText>
+        <MonthText>{props.month}</MonthText>
         <ArrowRight
           onClick={() => {
             props.setDMonths((x) => x - 1);

@@ -65,7 +65,7 @@ export function TransactionsView(props) {
     if (dialogOpen === "delete") {
       const documentReference = doc(
         db,
-        "cities",
+        "users",
         currentUser.uid,
         "transactions",
         clickedTransaction
@@ -80,7 +80,7 @@ export function TransactionsView(props) {
     if (dialogOpen === "edit") {
       const documentReference = doc(
         db,
-        "cities",
+        "users",
         currentUser.uid,
         "transactions",
         clickedTransaction
@@ -111,7 +111,7 @@ export function TransactionsView(props) {
             <StyledTableCell align="left">Transactions</StyledTableCell>
             <StyledTableCell align="left">Date</StyledTableCell>
             <StyledTableCell align="left">Category</StyledTableCell>
-            <StyledTableCell align="center">Amount[PLN]</StyledTableCell>
+            <StyledTableCell align="center">Amount [PLN]</StyledTableCell>
             <StyledTableCell align="left"></StyledTableCell>
           </TableRow>
         </TableHead>
