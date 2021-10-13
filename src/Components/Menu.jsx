@@ -48,7 +48,7 @@ const LogOut = styled.div`
   position: fixed;
   width: 300px;
   height: 24px;
-  bottom: 50px;
+  bottom: 30px;
   display: flex;
   color: rgba(255, 255, 255, 1);
   font-size: 16px;
@@ -106,7 +106,7 @@ export function Menu() {
         <div className="menuText">Setings</div>
       </MenuItem>
       <LogoutBtn>
-        <LogOut className="menu-bars">     
+        <LogOut className="menu-bars">
           <div className="menuIcon">
             <IoLogOut size={40} />
           </div>

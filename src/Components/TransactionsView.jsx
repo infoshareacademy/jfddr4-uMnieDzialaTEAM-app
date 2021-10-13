@@ -1,5 +1,5 @@
 import { db } from "../firebaseConfig";
-import { doc} from "firebase/firestore";
+import { doc } from "firebase/firestore";
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
@@ -19,8 +19,6 @@ import Modal from "@mui/material/Modal";
 import RemoveExpense from "./RemoveExpense";
 import EditExpense from "./EditExpense";
 import { useCurrentUser } from "../helpers/hooks";
-
-
 
 const StyledTableCell = styled(TableCell)({
   [`&.${tableCellClasses.head}`]: {
@@ -64,7 +62,7 @@ export function TransactionsView(props) {
     setDialogOpen("edit");
   };
   const generateDialogContent = () => {
-    debugger
+    debugger;
     if (dialogOpen === "delete") {
       const documentReference = doc(
         db,
@@ -173,7 +171,3 @@ export function TransactionsView(props) {
     </CustomizedContainer>
   );
 }
-
-
-
-

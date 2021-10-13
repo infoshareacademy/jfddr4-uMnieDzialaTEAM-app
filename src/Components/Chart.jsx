@@ -4,9 +4,9 @@ import AddButton from "./AddButton";
 
 const ChartCont = styled.div`
   background: rgba(255, 255, 255, 0.06);
-  width: 90%;
+  width: 100%;
   border-radius: 10px;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
 `;

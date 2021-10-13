@@ -15,7 +15,7 @@ import { TransactionsContainer } from "./Components/TransactionsContainer";
 import styled from "styled-components";
 
 const Transaction = styled.div`
-  width: 90%;
+  width: 100%;
   left: 399px;
   top: 658px;
   background: rgba(255, 255, 255, 0.06);
