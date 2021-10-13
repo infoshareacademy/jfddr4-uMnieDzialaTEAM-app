@@ -5,8 +5,7 @@ import mario from "./images/Mario-icon.png";
 
 const Wrapper = styled.div`
   max-width: 100vw;
-  min-height: 1150px;
-  max-height: 100vh;
+  min-height: 100vh;
   display: flex;
   background: radial-gradient(50% 50% at 50% 50%, #3d3c68 0%, #1b1a2c 100%);
 `;
@@ -19,14 +18,14 @@ const LeftPanel = styled.div`
   align-items: center;
 `;
 const RightPanel = styled.div`
-  min-height: 1150px;
+  min-height: 100vh;
   flex: 1;
-  height: 100vh;
   display: flex;
   border-left: #fff 1px groove;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 30px;
 `;
 
 const Header = styled.header`

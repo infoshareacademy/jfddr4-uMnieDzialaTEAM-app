@@ -4,6 +4,7 @@ import { IconContext } from "react-icons";
 import { TransactionsView } from "./TransactionsView";
 
 const TransactionWrapper = styled.div`
+  width: 100%;
   left: 399px;
   top: 658px;
   border-top-left-radius: 10px;
@@ -55,8 +56,6 @@ const MonthText = styled.p`
 const TransactionsDiv = styled.div`
   display: flex;
 `;
-
-
 
 export function TransactionsContainer(props) {
   return (
