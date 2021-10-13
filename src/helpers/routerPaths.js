@@ -1,8 +1,9 @@
 const routerPaths = {
   login: "/",
   register: "/register",
-  dashboard: "/dashboard",
-  noAccess: "/accessDenied"
+  home: "/home",
+  noAccess: "/accessDenied",
+  trends: "/trends",
 };
 
 export { routerPaths };

@@ -11,13 +11,14 @@ const StyledButton = styled.button`
   box-shadow: inset 2px 0px 2px rgba(255, 255, 255, 0.1),
     inset 0px 6px 10px rgba(255, 255, 255, 0.25);
   border-radius: 8px;
-  margin: 32px 0px;
-
   font-family: Inter;
   font-style: normal;
   font-weight: bold;
   font-size: 16px;
   line-height: 24px;
+  position: absolute;
+  bottom: 40px;
+  right: 50px;
 `;
 
 const style = {

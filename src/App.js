@@ -4,13 +4,68 @@ import RegisterView from "./Components/RegisterView";
 import { PageContainer } from "./Components/PageContainer";
 import { routerPaths } from "./helpers/routerPaths";
 import { useCurrentUser } from "./helpers/hooks";
-import { useEffect } from "react";
+import { useEffect, useState, useMemo } from "react";
+import DonutChart from "./Components/Chart";
+import { db } from "./firebaseConfig";
+import { query, collection, where } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
+import { subMonths } from "date-fns";
+import ApexChart from "./Components/ChartYear";
+import { TransactionsContainer } from "./Components/TransactionsContainer";
+import styled from "styled-components";
+
+const Transaction = styled.div`
+  width: 90%;
+  left: 399px;
+  top: 658px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+`;
 
 function App() {
   const currentUser = useCurrentUser();
+  const [transactions, setTransactions] = useState([]);
+  const [dMonths, setDMonths] = useState(0);
+
+  // useEffect(() => {
+  //   console.log("[App] currentUser: ", currentUser);
+  // }, []);
+
+  let date = useMemo(() => new Date(), []);
+
+  let firstDay = useMemo(
+    () => new Date(date.getFullYear(), date.getMonth(), 1),
+    [date]
+  );
+
+  let lastDay = useMemo(
+    () => new Date(date.getFullYear(), date.getMonth() + 1, 1),
+    [date]
+  );
+
   useEffect(() => {
-    console.log("[App] currentUser: ", currentUser);
-  });
+    if (!currentUser) {
+      return;
+    }
+
+    onSnapshot(
+      query(
+        collection(db, "cities", currentUser.uid, "transactions"),
+        where("date", ">", subMonths(firstDay, dMonths)),
+        where("date", "<", subMonths(lastDay, dMonths))
+      ),
+      (querySnapshot) => {
+        const transactions = [];
+        querySnapshot.forEach((doc) => {
+          transactions.push({
+            ...doc.data(),
+            key: doc.id,
+          });
+        });
+        setTransactions(transactions);
+      }
+    );
+  }, [currentUser, dMonths, firstDay, lastDay]);
 
   return (
     <BrowserRouter>
@@ -23,18 +78,35 @@ function App() {
           <RegisterView />
         </Route>
 
-        <Route exact path={routerPaths.dashboard}>
+        <Route exact path={routerPaths.home}>
           {currentUser === null ? (
             <Redirect to={routerPaths.noAccess} />
           ) : (
-            <PageContainer />
+            <PageContainer>
+              <DonutChart transactions={transactions} />
+              <Transaction>
+                <TransactionsContainer
+                  transactions={transactions}
+                  setDMonths={setDMonths}
+                />
+              </Transaction>
+            </PageContainer>
           )}
         </Route>
-
+        <Route exact path="/chart">
+          <DonutChart />
+        </Route>
         <Route exact path={routerPaths.noAccess}>
           <h1>No access!</h1>
         </Route>
-        <h1>No such page 😭</h1>
+        <Route exact path={routerPaths.trends}>
+          <PageContainer>
+            <ApexChart></ApexChart>
+          </PageContainer>
+        </Route>
+        <Route>
+          <h1>No such page 😭</h1>
+        </Route>
       </Switch>
     </BrowserRouter>
   );
