@@ -245,7 +245,7 @@ function LoginView() {
 	const handleLoginSubmit = ({ email, password }) => {
 		signInWithEmailAndPassword(auth, email, password)
 			.then((userCredential) => {
-				history.push(routerPaths.dashboard);
+				history.push(routerPaths.home);
 			})
 			.catch((error) => {
 				let customError = "";
@@ -275,7 +275,7 @@ function LoginView() {
 
 	return (
 		<>
-			{user ? <Redirect to={routerPaths.dashboard} /> : <></>}
+			{user ? <Redirect to={routerPaths.home} /> : <></>}
 			<Container>
 				<LeftContainer>
 					<PositionalContainer>
