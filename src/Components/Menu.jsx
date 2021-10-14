@@ -93,18 +93,6 @@ export function Menu() {
         </div>
         <div className="menuText">Trends</div>
       </MenuItem>
-      <MenuItem to="/account" className="menu-bars">
-        <div className="menuIcon">
-          <BsFillPersonFill size={40} />
-        </div>
-        <div className="menuText">Account</div>
-      </MenuItem>
-      <MenuItem to="/settings" className="menu-bars">
-        <div className="menuIcon">
-          <AiFillSetting size={40} />
-        </div>
-        <div className="menuText">Setings</div>
-      </MenuItem>
       <LogoutBtn>
         <LogOut className="menu-bars">
           <div className="menuIcon">

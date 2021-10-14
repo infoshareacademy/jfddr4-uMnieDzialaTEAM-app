@@ -64,8 +64,6 @@ export function PageContainer(props) {
       <RightPanel>
         <Header>
           <div>
-            <img src={mario} alt="avatar" />
-            <div id="name">Hi, Mario</div>
           </div>
           <DateTime />
         </Header>

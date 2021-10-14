@@ -33,7 +33,7 @@ const AddExpenseIncome = function ({ onClose }) {
 
     try {
       const docRef = await addDoc(
-        collection(db, "cities", userID, "transactions"),
+        collection(db, "users", userID, "transactions"),
         {
           name: title,
           category: category,

@@ -59,10 +59,10 @@ function DonutChart(props) {
                 label: "Balance:",
                 formatter: function (w) {
                   return (
-                    "$" +
+                    
                     w.globals.seriesTotals.reduce((a, b) => {
                       return a + b;
-                    }, 0)
+                    }, 0) + " PLN"
                   );
                 },
               },

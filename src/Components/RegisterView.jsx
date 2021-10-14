@@ -167,7 +167,7 @@ function RegisterView() {
   }, [auth]);
 
   if (currentUser) {
-    return <Redirect to={routerPaths.dashboard} />;
+    return <Redirect to={routerPaths.home} />;
   }
 
   return (
