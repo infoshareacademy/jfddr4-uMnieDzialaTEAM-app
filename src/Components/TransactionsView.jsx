@@ -147,12 +147,14 @@ export function TransactionsView(props) {
                   color="inherit"
                   startIcon={<EditOutlinedIcon />}
                   onClick={() => handleEdit(row.key)}
+                  cursor="pointer"
                 ></Button>
                 <Button
                   size="medium"
                   color="inherit"
                   startIcon={<BackspaceIcon />}
                   onClick={() => handleDelete(row.key)}
+                  cursor="pointer"
                 ></Button>
               </CustomizedTableCell>
             </TableRow>

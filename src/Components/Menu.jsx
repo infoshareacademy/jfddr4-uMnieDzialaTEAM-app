@@ -43,6 +43,9 @@ const MenuItem = styled(NavLink)`
     background-color: rgba(255, 255, 255, 0.22);
     color: #fff;
   }
+  &.active{
+    background-color:rgba(255, 255, 255, 0.22);
+  }
 `;
 const LogOut = styled.div`
   position: fixed;

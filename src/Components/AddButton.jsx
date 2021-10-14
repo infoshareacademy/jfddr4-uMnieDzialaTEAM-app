@@ -19,6 +19,7 @@ const StyledButton = styled.button`
   position: absolute;
   bottom: 40px;
   right: 50px;
+  cursor: pointer;
 `;
 
 const style = {
