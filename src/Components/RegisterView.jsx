@@ -107,7 +107,7 @@ const Btn = styled.button`
     inset 0px 6px 10px rgba(255, 255, 255, 0.25);
   border-radius: 8px;
   margin-top: 32px;
-
+  cursor: pointer;
   font-family: Inter;
   font-style: normal;
   font-weight: bold;
