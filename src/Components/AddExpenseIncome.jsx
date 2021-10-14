@@ -166,6 +166,7 @@ const AddExpenseIncome = function ({ onClose }) {
         </Box>
         <button
           style={{
+            cursor: "pointer",
             width: "400px",
             height: "48px",
             background: "linear-gradient(180deg, #7AECF4 0%, #44DFE9 100%)",

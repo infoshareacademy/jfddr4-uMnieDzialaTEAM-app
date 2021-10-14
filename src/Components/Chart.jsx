@@ -56,7 +56,7 @@ function DonutChart(props) {
                 fontFamily: "Inter",
                 fontWeight: 900,
                 color: "#fff",
-                label: "Balance:",
+                label: "Expenses:",
                 formatter: function (w) {
                   return (
                     
